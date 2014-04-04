@@ -1,0 +1,4 @@
+service Message {
+   string motd()
+}
+

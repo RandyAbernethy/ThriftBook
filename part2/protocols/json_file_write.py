@@ -1,0 +1,39 @@
+# Apache Thrift JSON Protocol Struct Writer in Python 
+
+from thrift.transport import TTransport
+from thrift.protocol import TJSONProtocol
+from thrift import Thrift
+
+class Trade:
+    def __init__(self):
+        symbol=""
+        price=0.0
+        size=0
+
+trans = TTransport.TFileObjectTransport(open("data","wb"))
+proto = TJSONProtocol.TJSONProtocol(trans)					
+
+trade = Trade()
+trade.symbol = "F"
+trade.price = 13.10
+trade.size = 2500
+
+proto.writeStructBegin("Trade")
+
+proto.writeFieldBegin("symbol", Thrift.TType.STRING, 1)
+proto.writeString(trade.symbol)
+proto.writeFieldEnd()
+
+proto.writeFieldBegin("price", Thrift.TType.DOUBLE, 2)
+proto.writeDouble(trade.price)
+proto.writeFieldEnd()
+
+proto.writeFieldBegin("size", Thrift.TType.I32, 3)
+proto.writeI32(trade.size)
+proto.writeFieldEnd()
+
+proto.writeFieldStop()
+proto.writeStructEnd()
+        
+print("Wrote Trade: %s %d @ %f" % (trade.symbol, trade.size, trade.price))
+
