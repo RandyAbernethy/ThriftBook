@@ -1,11 +1,11 @@
-ThriftBook
-==========
+The Programmer's Guide to Apache Thrift
+=======================================
 
 Source for the examples in: The Programmer's Guide to Apache Thrift
 
 http://www.manning.com/abernethy/
 
-**The book is organized into three parts:**
+**The book (and its source) is organized into three parts:**
 
 *Part I - Apache Thrift Overview*
 
