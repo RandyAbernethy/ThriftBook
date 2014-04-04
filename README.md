@@ -15,7 +15,7 @@ A high level inroduction to Apache Thrift and its architecture. Examples from th
 
 *Part II - Programming Apache Thrift*
 
-This part digs into each layere of the Apache thrift framework, examining transports, protocols, servers and the Apache Thrift interface definition language in detail. Examples from these chapters use C++, Java and Python as the demonstration languages.
+This part digs into each layer of the Apache thrift framework, examining transports, protocols, servers and the Apache Thrift interface definition language in detail. Examples from these chapters use C++, Java and Python as the demonstration languages.
 
 /part2
 
@@ -25,3 +25,4 @@ This part covers a set of the most popular platforms and languages used with Apa
 
 /part3
 
+There is a lager enterprise style application originally designed as a vehicle for this part of the book but it was not included in the final text due to the size of the book. I will post the code in the near future.
