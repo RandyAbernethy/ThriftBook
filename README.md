@@ -26,3 +26,10 @@ This part covers a set of the most popular platforms and languages used with Apa
 /part3
 
 There is a lager enterprise style application originally designed as a vehicle for this part of the book but it was not included in the final text due to the size of the book. I will post the code in the near future.
+
+*Tools - Miscellaneous Thrift Stuff*
+
+This folder is for various Thrift related stuff. Presently only a GEdit language file for Apache Thrift IDL.
+
+/tools
+
