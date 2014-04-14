@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <title>Hello Thrift</title>
+  </head>
+  <body>
+    Name: <input type="text" id="name_in">
+    <input type="button" id="get_msg" value="Get Message" >
+    <div id="output"></div>
+    <script src="http://code.jquery.com/jquery-1.11.0.js"></script>	
+    <script src="bower_components/thrift/thrift.js"></script>
+    <script src="gen-js/helloExc_types.js"></script>
+    <script src="gen-js/helloError.js"></script>
+    <script>
+      (function() {
+        var transport = new Thrift.TXHRTransport("/hello");
+        var protocol  = new Thrift.TJSONProtocol(transport);
+        var client = new helloErrorClient(protocol);
+        var $name = $("#name_in");						
+        var $out = $("#output");
+        $("#get_msg")
+          .click(function(){						
+            client.getMessage($name.val(), function(){})   		   
+              .success(function(result) { $out.html(result); })		
+              .error(function(xhr, status, e) { $out.html(e.msg || e); })
+              .complete(function() { $out.append("<br>Complete"); });
+          });
+      })();
+    </script>
+  </body>
+</html>
+

@@ -1,32 +1,29 @@
 <!DOCTYPE html>
-<!-- Simple Apache Thrift Client -->
 <html lang="en">
   <head>
     <meta charset="utf-8">
     <title>Hello Thrift</title>
   </head>
   <body>
-    Name: 
-    <input type="text" id="name_in">
+    Name: <input type="text" id="name_in">
     <input type="button" id="get_msg" value="Get Message" >
     <div id="output"></div>
-
-    <script src="thriftws.js"></script>
-    <script src="gen-js/hello_svc.js"></script>
+    <script src="bower_components/thrift/thrift.js"></script>
+    <script src="gen-js/helloSvc.js"></script>
     <script>
       (function() {
-         var loc = window.location;
-         var ws_uri = ((loc.protocol === "https:") ? "wss://" : "ws://") + 
-                      loc.hostname + ":" + loc.port + loc.pathname;
-        var transport = new Thrift.TWebSocketTransport(ws_uri);
-        var protocol  = new Thrift.Protocol(transport);
-        var client    = new hello_svcClient(protocol);
+         var loc = window.location;					
+         var wsUrl = ((loc.protocol === "https:") ? "wss://" : "ws://") + 
+                      loc.hostname + ":" + loc.port + loc.pathname;	
+        var transport = new Thrift.TWebSocketTransport(wsUrl);		
+        var protocol  = new Thrift.TJSONProtocol(transport);
+        var client    = new helloSvcClient(protocol);
         var nameElement = document.getElementById("name_in");
         var outputElement = document.getElementById("output");
-        transport.open();
+        transport.open();							
         document.getElementById("get_msg")
           .addEventListener("click", function(){
-            client.get_message(nameElement.value, function(result) {
+            client.getMessage(nameElement.value, function(result) {
               outputElement.innerHTML = result;
             });
           });

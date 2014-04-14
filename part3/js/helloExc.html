@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <title>Hello Thrift</title>
+  </head>
+  <body>
+    Name: <input type="text" id="name_in">
+    <input type="button" id="get_msg" value="Get Message" >
+    <div id="output"></div>
+    <script src="bower_components/thrift/thrift.js"></script>
+    <script src="gen-js/helloExc_types.js"></script>
+    <script src="gen-js/helloError.js"></script>
+    <script>
+      (function() {
+        var transport = new Thrift.TXHRTransport("/hello");
+        var protocol  = new Thrift.TJSONProtocol(transport);
+        var client    = new helloErrorClient(protocol);
+        var nameElement = document.getElementById("name_in");
+        var outputElement = document.getElementById("output");
+        document.getElementById("get_msg")
+          .addEventListener("click", function(){
+            client.getMessage(nameElement.value, function(result) {
+              if (result instanceof Error) {				
+                outputElement.innerHTML = 
+                  result instanceof badMsg ? result.msg : "unknown error";
+              } else {
+                outputElement.innerHTML = result;
+              }
+            });
+          });
+      })();
+    </script>
+  </body>
+</html>
+
