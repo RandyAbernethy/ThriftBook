@@ -8,24 +8,31 @@ using Thrift.Transport;
 
 namespace tradeClient
 {
-    class Program
+  class Program
+  {
+    static void Main(string[] args)
     {
-        static void Main(string[] args)
+      TTransport trans = new TNamedPipeClientTransport("TradeStream");
+      trans.Open();
+      TProtocol proto = new TCompactProtocol(trans);
+      PNWF.TradeStream.Client client = new PNWF.TradeStream.Client(proto);
+      try
+      {
+        for (int i = 0; i < 100; i++)
         {
-            TTransport trans = new TNamedPipeClientTransport("TradeStream");
-            //trans = new TBufferedTransport(trans as TStreamTransport);
-            trans.Open();
-            TProtocol proto = new TCompactProtocol(trans);
-            PNWF.TradeStream.Client client = new PNWF.TradeStream.Client(proto);
-            for (int i = 0; i < 100; i++){
-                List<PNWF.Trade> trades = client.GetNextTrade("");
-                foreach (PNWF.Trade trade in trades) {
-                    Console.Out.WriteLine(trade.Date_time.Hour.ToString("D2") + ":" +
-                        trade.Date_time.Minute.ToString("D2") + ":" + trade.Date_time.Second.ToString("D2") + " " + 
-                        trade.Fish + "-" + trade.Market.ToString() + " " + trade.Price);
-                }
-            }
+          List<PNWF.Trade> trades = client.GetNextTrade("");
+          foreach (PNWF.Trade trade in trades)
+          {
+            Console.Out.WriteLine(trade.Date_time.Hour.ToString("D2") + ":" +
+                trade.Date_time.Minute.ToString("D2") + ":" + trade.Date_time.Second.ToString("D2") + " " +
+                trade.Fish + "-" + trade.Market.ToString() + " " + trade.Price);
+          }
         }
+      }
+      catch (TTransportException ex)
+      {
+        Console.WriteLine("Exception: " + ex.Message);
+      }
     }
+  }
 }
-
