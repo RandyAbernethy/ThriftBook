@@ -11,8 +11,9 @@ namespace tradeServer
   /// <summary>
   /// Simulate trade events
   /// 
-  /// This class requries each client connection to be hosted by a seperate thread. A 
-  /// thread local event is used as a key to return a unique trade queue for each connection.
+  /// This class requries each client connection to be hosted by a seperate 
+  /// thread. A thread local event is used as a key to return a unique 
+  /// trade queue for each connection.
   /// </summary>
   public static class TradeEventGenerator
   {
@@ -92,32 +93,34 @@ namespace tradeServer
   }
 
   /// <summary>
-  /// Long polling trade event RPC interface
+  /// Long polling Trade Stream RPC Service implementation
   /// </summary>
   public class TradeStreamHandler : PNWF.TradeStream.Iface
   {
     //Methods
     public List<PNWF.Trade> GetNextTrade(string fish_filter)
     {
-      //Recover thread specific trade queue
-      ConcurrentQueue<PNWF.Trade> trades = TradeEventGenerator.GetTrades();
-
       //Wait for trades
       TradeEventGenerator.WaitForTrades();
+
+      //Recover thread specific trade queue
+      ConcurrentQueue<PNWF.Trade> trades = TradeEventGenerator.GetTrades();
 
       //Move the trades into the return list an return it to the client
       List<PNWF.Trade> returnTrades = new List<PNWF.Trade>();
       PNWF.Trade trade;
       while (trades.TryDequeue(out trade))
       {
-        returnTrades.Add(trade);
+        if (fish_filter.Length == 0 || fish_filter.CompareTo(trade.Fish) == 0)
+          returnTrades.Add(trade);
       }
       return returnTrades;
     }
   }
 
   /// <summary>
-  /// Server Event Handler to subscribe and unsubscribe each client connection
+  /// Server Event Handler used to subscribe and unsubscribe each client 
+  /// connection to the trade stream
   /// </summary>
   public class TradeServerEventHandler : TServerEventHandler
   {
