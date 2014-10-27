@@ -11,8 +11,8 @@ begin
 
   transport.open()
 
-  res = client.getMessage("Hideko")
-  puts "Message from server: " + res
+  res = client.getMessage('world')
+  puts 'Message from server: ' + res
   transport.close()
 
 rescue Thrift::Exception => tx

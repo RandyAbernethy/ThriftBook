@@ -6,17 +6,18 @@ require 'hello_svc'
 
 class HelloHandler
   def getMessage(name)
-    return "Hello " + name
+    return 'Hello ' + name
   end
 end
 
+port = 9095
 handler = HelloHandler.new()
 processor = HelloSvc::Processor.new(handler)
-transport = Thrift::ServerSocket.new(9095)
-transportFactory = Thrift::BufferedTransportFactory.new()
-server = Thrift::SimpleServer.new(processor, transport, transportFactory)
+endpointSvrTrans = Thrift::ServerSocket.new(port)
+layeredTransFac = Thrift::BufferedTransportFactory.new()
+protoFac = Thrift::BinaryProtocolFactory.new()
+server = Thrift::SimpleServer.new(processor, endpointSvrTrans, layeredTransFac, protoFac)
 
-puts "Starting the server..."
+puts "Starting server on port #{port}..."
 server.serve()
-puts "done."
 
