@@ -7,12 +7,16 @@ require 'hello_svc'
 begin
   trans_ep = Thrift::Socket.new('localhost', 9095)
   trans_buf = Thrift::BufferedTransport.new(trans_ep)
-  proto = Thrift::BinaryProtocol.new(trans_buf)
+  proto = Thrift::BinaryProtocolAccelerated.new(trans_buf)
   client = HelloSvc::Client.new(proto)
 
   trans_ep.open()
-  res = client.getMessage('world')
-  puts 'Message from server: ' + res
+
+  start = Time.now
+  100000.times {res = client.getMessage('world')}
+  stop = Time.now
+
+  puts 'time: ' + (stop - start).to_s
   trans_ep.close()
 rescue Thrift::Exception => tx
   print 'Thrift::Exception: ', tx.message, "\n"

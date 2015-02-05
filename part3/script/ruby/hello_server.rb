@@ -13,10 +13,10 @@ end
 port = 9095
 handler = HelloHandler.new()
 processor = HelloSvc::Processor.new(handler)
-endpointSvrTrans = Thrift::ServerSocket.new(port)
-layeredTransFac = Thrift::BufferedTransportFactory.new()
-protoFac = Thrift::BinaryProtocolFactory.new()
-server = Thrift::SimpleServer.new(processor, endpointSvrTrans, layeredTransFac, protoFac)
+trans_svr_ep = Thrift::ServerSocket.new(port)
+trans_buf_fac = Thrift::BufferedTransportFactory.new()
+proto_fac = Thrift::BinaryProtocolFactory.new()
+server = Thrift::SimpleServer.new(processor, trans_svr_ep, trans_buf_fac, proto_fac)
 
 puts "Starting server on port #{port}..."
 server.serve()
