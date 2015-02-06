@@ -1,0 +1,7 @@
+-cp /usr/lib/haxe/lib/thrift/git/lib/haxe/src
+-cp gen-haxe
+-main Hello
+-cpp bin
+-D HXCPP_M64
+
+
