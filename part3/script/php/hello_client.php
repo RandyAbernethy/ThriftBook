@@ -1,6 +1,6 @@
 <?php
   require 'vendor/autoload.php';
-  require 'gen-php/Hello/helloSvc.php';
+  require 'gen-php/helloSvc.php';
 
   $msg = 'No server response';
 
@@ -11,7 +11,7 @@
       $trasn_ep = new Thrift\Transport\TSocket('localhost', 9095);
       $trans_buf = new Thrift\Transport\TBufferedTransport($trasn_ep);
       $proto = new Thrift\Protocol\TBinaryProtocol($trans_buf);
-      $client = new Hello\helloSvcClient($proto);
+      $client = new helloSvcClient($proto);
 
       $trasn_ep->open();
       $msg = $client->getMessage($_POST['user_name']);
