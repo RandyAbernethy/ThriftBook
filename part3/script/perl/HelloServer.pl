@@ -26,7 +26,7 @@ package HelloSvcHandler {
 
 my $trans  = Thrift::ServerSocket->new(9095);
 my $proc   = helloSvcProcessor->new(HelloSvcHandler->new);
-my $server = Thrift::SimpleServer->new($proc, $trans);
+my $server = Thrift::ForkingServer->new($proc, $trans);
 
 $server->serve;
 
