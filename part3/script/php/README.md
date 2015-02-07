@@ -13,4 +13,4 @@ a thrift IDL file without a namespace declaration. This will be
 fixed in the next release. In the meantime you can avoid this
 error by declaring a namespace in your IDL (e.g. "namespace myPhpService")
 and prefixing your generated code objects with the namespace name
-(e.g. "myPgpService\\...).
+(e.g. "myPgpService\\...").
