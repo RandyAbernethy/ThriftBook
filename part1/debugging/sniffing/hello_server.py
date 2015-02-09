@@ -1,3 +1,5 @@
+import logging
+logging.basicConfig()
 import sys
 sys.path.append("gen-py")
 
