@@ -7,7 +7,7 @@ import org.apache.thrift.TException;
 public class HelloClient {
 
     public static void main(String[] args) throws TException {
-        TSocket socket = new TSocket("localhost", 8585);
+        TSocket socket = new TSocket("localhost", 9095);
         socket.open();
         TBinaryProtocol protocol = new TBinaryProtocol(socket);
         

@@ -7,7 +7,7 @@ from thrift.transport import TSocket
 from thrift.protocol import TBinaryProtocol
 from hello import HelloSvc
 
-socket = TSocket.TSocket("localhost", 8585)
+socket = TSocket.TSocket("localhost", 9095)
 socket.open()
 protocol = TBinaryProtocol.TBinaryProtocol(socket)
 

@@ -13,7 +13,7 @@ using namespace apache::thrift::protocol;
 using boost::make_shared;
 
 int main() {
-    auto socket = make_shared<TSocket>("localhost", 8585);
+    auto socket = make_shared<TSocket>("localhost", 9095);
     socket->open();
     auto protocol = make_shared<TBinaryProtocol>(socket);
 
