@@ -52,7 +52,7 @@ public class DiskSer {
   public static void WriteRadioObservation(TProtocol proto, 
                                            boolean writeBMP) 
           throws TException, IOException {
-      System.out.println("\nWritting Observations");
+      System.out.println("\nWriting Observations");
       System.out.println("-------------------------");
       RadioObservation ro = new RadioObservation();
       FakeInit(ro);
