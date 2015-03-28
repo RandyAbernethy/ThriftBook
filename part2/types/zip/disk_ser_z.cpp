@@ -1,8 +1,8 @@
 // ZLib serialization compression
 
 #include <iostream>
-#include <memory>
 #include <boost/shared_ptr.hpp>
+#include <boost/make_shared.hpp>
 #include <thrift/transport/TSimpleFileTransport.h>
 #include <thrift/transport/TZlibTransport.h>
 #include <thrift/protocol/TBinaryProtocol.h>
@@ -40,34 +40,36 @@ int main(int argc, char *argv[]) {
         return -1;
     }
     try {
-		std::cout << "Reading from uncompressed file: " << argv[1] << std::endl;
-		boost::shared_ptr<TTransport> trans(new TSimpleFileTransport(argv[1], true, true));
-		std::unique_ptr<TProtocol> proto(new TBinaryProtocol(trans));
-		trans->open();
-		RadioObservation ro;
-		ro.read(proto.get());
-		trans->close();
-		DumpRadioObservation(ro);
+        std::cout << "Reading from uncompressed file: " << argv[1] << std::endl;
+        boost::shared_ptr<TTransport> trans = 
+            boost::make_shared<TSimpleFileTransport>(argv[1], true, true);
+        boost::shared_ptr<TProtocol> proto = 
+            boost::make_shared<TBinaryProtocol>(trans);
+        trans->open();
+        RadioObservation ro;
+        ro.read(proto.get());
+        trans->close();
+        DumpRadioObservation(ro);
 
-		std::string out_file(argv[1]); out_file += ".z";
-		std::cout << "\nWritting to compressed file: " << out_file << std::endl;
-		trans.reset(new TSimpleFileTransport(out_file, true, true));
-		trans.reset(new TZlibTransport(trans, 1024, 1024, 1024, 1024, 9));
-		proto.reset(new TBinaryProtocol(trans));
-		trans->open();
-		ro.write(proto.get());
-		trans->flush();
-		trans->close();
+        std::string out_file(argv[1]); out_file += ".z";
+        std::cout << "\nWritting to compressed file: " << out_file << std::endl;
+        trans.reset(new TSimpleFileTransport(out_file, true, true));
+        trans.reset(new TZlibTransport(trans, 1024, 1024, 1024, 1024, 9));
+        proto.reset(new TBinaryProtocol(trans));
+        trans->open();
+        ro.write(proto.get());
+        trans->flush();
+        trans->close();
 
-		std::cout << "\nVerifying compressed file: " << out_file << std::endl;
-		trans.reset(new TSimpleFileTransport(out_file, true, true));
-		trans.reset(new TZlibTransport(trans));
-		proto.reset(new TBinaryProtocol(trans));
-		trans->open();
-		RadioObservation ro_check;
-		ro_check.read(proto.get());
-		trans->close();
-		DumpRadioObservation(ro_check);
+        std::cout << "\nVerifying compressed file: " << out_file << std::endl;
+        trans.reset(new TSimpleFileTransport(out_file, true, true));
+        trans.reset(new TZlibTransport(trans));
+        proto.reset(new TBinaryProtocol(trans));
+        trans->open();
+        RadioObservation ro_check;
+        ro_check.read(proto.get());
+        trans->close();
+        DumpRadioObservation(ro_check);
     } catch (std::exception ex) {
         std::cerr << "Error: " << ex.what() << std::endl;
     }
