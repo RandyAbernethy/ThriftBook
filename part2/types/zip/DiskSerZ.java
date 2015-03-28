@@ -62,6 +62,7 @@ public class DiskSerZ {
         ro.setSky_bmp(Files.readAllBytes(Paths.get("quasar.bmp")));       
       }
       ro.write(proto);
+      proto.getTransport().flush();
       DumpObservation(ro);    
   }
 
@@ -77,7 +78,7 @@ public class DiskSerZ {
     TTransport trans = null;
     try {
       System.out.println("Radio Observation Disk Serializer " + radio_observationConstants.Version);
-      trans = new TSimpleFileTransport("data", true, true);
+      trans = new TSimpleFileTransport("data.z", true, true);
       trans = new TZlibTransport(trans);
       trans.open();
       TProtocol proto = new TBinaryProtocol(trans);
