@@ -2,19 +2,21 @@
 #include <boost/shared_ptr.hpp>
 #include <boost/make_shared.hpp>
 #include <thrift/transport/TSocket.h>
+#include <thrift/transport/TBufferTransports.h>
 #include <thrift/protocol/TBinaryProtocol.h>
 #include "gen-cpp/SocialUpdate.h"					
 
 using namespace apache::thrift::transport;  
 using namespace apache::thrift::protocol;   
 
-int main(int argv, char * argc[]) {
-    boost::shared_ptr<TSocket> socket = 
-        boost::make_shared<TSocket>("localhost", 8585);
-    socket->open();
-    boost::shared_ptr<TProtocol> protocol = 
-        boost::make_shared<TBinaryProtocol>(socket);
-    SocialUpdateClient client(protocol);
+int main() {
+    boost::shared_ptr<TTransport> trans;
+    trans = boost::make_shared<TSocket>("localhost", 8585);
+    trans = boost::make_shared<TBufferedTransport>(trans);
+    trans->open();
+
+    auto proto = boost::make_shared<TBinaryProtocol>(trans);
+    SocialUpdateClient client(proto);
 
     std::string site_name;
     client.GetSiteByRank(site_name, 1);
