@@ -1,0 +1,31 @@
+<project default="all">
+   <target name="clean">
+      <delete dir="gen-java"/>
+      <delete>
+         <fileset dir="." includes="*.class"/>
+      </delete>
+   </target>
+   
+   <target name="compile">
+      <exec executable="thrift">
+         <arg line="-gen java"/>
+         <arg value="radio_observation.thrift"/>
+      </exec>
+      <javac includeantruntime="false" classpath="/usr/local/lib/libthrift-1.0.0.jar:/usr/local/lib/slf4j-api-1.7.12.jar:/usr/local/lib/slf4j-nop-1.7.12.jar" srcdir="gen-java" destdir="gen-java"/>
+      <javac includeantruntime="false" classpath="/usr/local/lib/libthrift-1.0.0.jar:gen-java" srcdir="." destdir="."/>
+   </target>
+   
+   <target name="write">
+      <java classname="DiskSerZ" classpath="/usr/local/lib/libthrift-1.0.0.jar:/usr/local/lib/slf4j-api-1.7.12.jar:/usr/local/lib/slf4j-nop-1.7.12.jar:gen-java:.">
+         <arg line="write bmp" />
+      </java>
+   </target>
+   
+   <target name="read">
+      <java classname="DiskSerZ" classpath="/usr/local/lib/libthrift-1.0.0.jar:/usr/local/lib/slf4j-api-1.7.12.jar:/usr/local/lib/slf4j-nop-1.7.12.jar:gen-java:.">
+         <arg line="read"/>
+      </java>
+   </target>
+   
+   <target name="all" depends="clean,compile"/>
+</project>
