@@ -33,7 +33,9 @@ Development Environment
 -----------------------
 
 A Dockerfile in the root of this repo will ultimately define a development environment for the book which will make it easy to build and test all of the examples in the book as well as the extensions provided here. This file is just a stub presently. Apache Thrift is undergoing three important changes on the way to the imminent v1.0. 
+
  - Support for Python 3.x
  - Support for C++11
  - Building the platform (compiler and all libs) with cmake
-As things stabilize I will update this Dockerfile.
+
+As things stabilize I will finalize this Dockerfile.
