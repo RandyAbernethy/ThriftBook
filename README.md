@@ -10,7 +10,7 @@ The book is organized into three parts:
 Part I - Apache Thrift Overview
 -------------------------------
 
-A high level inroduction to Apache Thrift and its architecture. Examples from this part are hello worldish. This part also covers basic Apache Thrift setup and debugging.
+A high level introduction to Apache Thrift and its architecture. Examples from this part are hello worldish. This part also covers basic Apache Thrift setup and debugging.
 
 Part II - Programming Apache Thrift
 -----------------------------------
@@ -20,7 +20,7 @@ This part digs into each layer of the Apache Thrift framework, examining transpo
 Part III - Polygot Application Development
 ------------------------------------------
 
-This part of the book provides jump starts for the most popular platforms and languages used with Apache Thrift. The Web, Mobile, and backend systems are examined through the lense of C++, Java, C#, JavaScript, Python, PHP, Perl, Ruby and Swift. The general idea is to add jump starts for every Apache Thrift language over time, though only the above mentioned languages will be in the first edition of the book. Currently only the Haxe jumpstart is complete and availible as an online addition.
+This part of the book provides jump starts for the most popular platforms and languages used with Apache Thrift. The Web, Mobile, and backend systems are examined through the lens of C++, Java, C#, JavaScript, Python, PHP, Perl, Ruby and Swift. The general idea is to add jump starts for every Apache Thrift language over time, though only the above mentioned languages will be in the first edition of the book. In addition to the above mentioned languages the Haxe jumpstart is complete and available as an online addition with examples in this repo.
 
 There is a lager enterprise style application originally designed as a vehicle for this part of the book but it was not included in the final text due to length restrictions. I will post the code here in the future if there is interest.
 
