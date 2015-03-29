@@ -1,6 +1,7 @@
 #include <string>
 #include <unordered_map>
 #include <boost/shared_ptr.hpp>
+#include <boost/make_shared.hpp>
 #include <thrift/protocol/TBinaryProtocol.h>
 #include <thrift/server/TSimpleServer.h>
 #include <thrift/transport/TServerSocket.h>
@@ -11,6 +12,7 @@ using namespace ::apache::thrift::protocol;
 using namespace ::apache::thrift::transport;
 using namespace ::apache::thrift::server;
 using boost::shared_ptr;
+using boost::make_shared;
 
 struct Site { std::string name; int users; };
 std::unordered_map<int, Site> siteRank = { 
@@ -47,11 +49,11 @@ public:
 };
 
 int main(int argc, char **argv) {
-  shared_ptr<SocialUpdateIf> handler(new SocialUpdateHandler());
-  shared_ptr<TProcessor> proc(new SocialUpdateProcessor(handler));
-  shared_ptr<TServerTransport> svr_trans(new TServerSocket(8585));
-  shared_ptr<TTransportFactory> trans_fac(new TTransportFactory());
-  shared_ptr<TProtocolFactory> proto_fac(new TBinaryProtocolFactory());
+  shared_ptr<SocialUpdateIf> handler = make_shared<SocialUpdateHandler>();
+  shared_ptr<TProcessor> proc = make_shared<SocialUpdateProcessor>(handler);
+  shared_ptr<TServerTransport> svr_trans = make_shared<TServerSocket>(8585);
+  shared_ptr<TTransportFactory> trans_fac = make_shared<TTransportFactory>();
+  shared_ptr<TProtocolFactory> proto_fac = make_shared<TBinaryProtocolFactory>();
   TSimpleServer server(proc, svr_trans, trans_fac, proto_fac);
   server.serve();
   return 0;

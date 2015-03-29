@@ -1,5 +1,6 @@
 #include <iostream>
 #include <boost/shared_ptr.hpp>
+#include <boost/make_shared.hpp>
 #include <thrift/transport/TSocket.h>
 #include <thrift/protocol/TBinaryProtocol.h>
 #include "gen-cpp/SocialUpdate.h"					
@@ -8,9 +9,11 @@ using namespace apache::thrift::transport;
 using namespace apache::thrift::protocol;   
 
 int main(int argv, char * argc[]) {
-    boost::shared_ptr<TSocket> socket(new TSocket("localhost", 8585));
+    boost::shared_ptr<TSocket> socket = 
+        boost::make_shared<TSocket>("localhost", 8585);
     socket->open();
-    boost::shared_ptr<TProtocol> protocol(new TBinaryProtocol(socket));
+    boost::shared_ptr<TProtocol> protocol = 
+        boost::make_shared<TBinaryProtocol>(socket);
     SocialUpdateClient client(protocol);
 
     std::string site_name;
