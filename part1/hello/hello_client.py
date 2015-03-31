@@ -8,9 +8,9 @@ from thrift.transport import TTransport
 from thrift.protocol import TBinaryProtocol
 from hello import HelloSvc
 
-trans_ep = TSocket.TSocket("localhost", 9095)
-trans_buf = TTransport.TBufferedTransport(trans_ep)
-proto = TBinaryProtocol.TBinaryProtocol(trans_buf)
+trans = TSocket.TSocket("localhost", 9095)
+trans = TTransport.TBufferedTransport(trans)
+proto = TBinaryProtocol.TBinaryProtocol(trans)
 client = HelloSvc.Client(proto)
 
 trans_ep.open()

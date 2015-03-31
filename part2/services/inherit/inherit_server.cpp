@@ -2,6 +2,7 @@
 #include <unordered_map>
 #include <boost/shared_ptr.hpp>
 #include <boost/make_shared.hpp>
+#include <thrift/transport/TBufferTransports.h>
 #include <thrift/protocol/TBinaryProtocol.h>
 #include <thrift/server/TSimpleServer.h>
 #include <thrift/transport/TServerSocket.h>
@@ -52,7 +53,7 @@ int main(int argc, char **argv) {
   shared_ptr<SocialUpdateIf> handler = make_shared<SocialUpdateHandler>();
   shared_ptr<TProcessor> proc = make_shared<SocialUpdateProcessor>(handler);
   shared_ptr<TServerTransport> svr_trans = make_shared<TServerSocket>(8585);
-  shared_ptr<TTransportFactory> trans_fac = make_shared<TTransportFactory>();
+  shared_ptr<TTransportFactory> trans_fac = make_shared<TBufferedTransportFactory>();
   shared_ptr<TProtocolFactory> proto_fac = make_shared<TBinaryProtocolFactory>();
   TSimpleServer server(proc, svr_trans, trans_fac, proto_fac);
   server.serve();

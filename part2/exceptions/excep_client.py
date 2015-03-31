@@ -4,14 +4,17 @@ import sys
 sys.path.append("gen-py")
 
 from thrift.transport import TSocket
+from thrift.transport import TTransport
 from thrift.protocol import TBinaryProtocol
 from excep import TradeHistory
 from excep.ttypes import BadFish
 
-socket = TSocket.TSocket("localhost", 8585)
-socket.open()
-protocol = TBinaryProtocol.TBinaryProtocol(socket)
-client = TradeHistory.Client(protocol)
+trans = TSocket.TSocket("localhost", 8585)
+trans = TTransport.TBufferedTransport(trans)
+trans.open()
+
+proto = TBinaryProtocol.TBinaryProtocol(trans)
+client = TradeHistory.Client(proto)
 try:
     print("[Client] received: %f" % client.GetLastSale(sys.argv[1]))
 except BadFish as bf:
