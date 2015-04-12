@@ -1,14 +1,15 @@
 #include <iostream>
+#include <boost/make_shared.hpp>
 #include <boost/shared_ptr.hpp>
 #include <thrift/protocol/TBinaryProtocol.h>
 #include <thrift/transport/TServerSocket.h>
+#include <thrift/transport/TBufferTransports.h>
 #include <thrift/TProcessor.h>
-#include "gen-cpp/Message.h"					
+#include "gen-cpp/Message.h"
 
 using namespace ::apache::thrift::protocol;
 using namespace ::apache::thrift::transport;
 using namespace ::apache::thrift;
-using boost::shared_ptr;
 
 const char * msgs[] = {"Apache Thrift!!",
                        "Childhood is a short season",
@@ -25,17 +26,17 @@ private:
     unsigned int msg_index;
 };
 
-int main(int argc, char **argv) {
-    MessageProcessor proc(shared_ptr<MessageIf>(new MessageHandler()));
+int main() {
+    MessageProcessor proc(boost::make_shared<MessageHandler>());
     TServerSocket svr_trans(8585);
     svr_trans.listen();
     while (true) {
-  		shared_ptr<TProtocol> proto(new TBinaryProtocol(svr_trans.accept()));
-  		try{
-	  		while(proc.process(proto, proto, nullptr)) {;}
-	  	} catch (TTransportException ex) {
-	  		std::cout << ex.what() << ", waiting for next client" << std::endl;
-	  	}
+        auto trans = boost::make_shared<TBufferedTransport>(svr_trans.accept());
+        auto proto = boost::make_shared<TBinaryProtocol>(trans);
+  	try{
+	    while(proc.process(proto, proto, nullptr)) {;}
+        } catch (const TTransportException& ex) {
+            std::cout << ex.what() << ", waiting for next client" << std::endl;
+        }
     }
 }
-
