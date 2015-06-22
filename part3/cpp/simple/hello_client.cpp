@@ -4,7 +4,7 @@
 #include <thrift/transport/TSocket.h>
 #include <thrift/transport/TBufferTransports.h>
 #include <thrift/protocol/TBinaryProtocol.h>
-#include "gen-cpp/Message.h"
+#include "gen-cpp/helloSvc.h"
 
 using namespace apache::thrift::transport;
 using namespace apache::thrift::protocol;
@@ -14,13 +14,15 @@ int main() {
     trans = boost::make_shared<TSocket>("localhost", 8585);
     trans = boost::make_shared<TBufferedTransport>(trans);
     auto proto = boost::make_shared<TBinaryProtocol>(trans);
-    MessageClient client(proto);
+    helloSvcClient client(proto);
 
-    trans->open();
-    std::string msg;
-    for (auto i = 0; i < 3; ++i) {
-        client.motd(msg);
+    try {
+        trans->open();
+        std::string msg;
+        client.getMessage(msg, "world!");
         std::cout << msg << std::endl;
-    }
+    } catch(...) {
+        std::cout << "Client threw an exception" << std::endl;
+    } 
     trans->close();
 }

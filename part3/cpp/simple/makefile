@@ -1,7 +1,7 @@
 TARGET = server client
-IDL = simple.thrift
-SVRSRC = simple_server.cpp gen-cpp/Message.cpp
-CLISRC = simple_client.cpp gen-cpp/Message.cpp
+IDL = hello.thrift
+SVRSRC = hello_server.cpp gen-cpp/helloSvc.cpp
+CLISRC = hello_client.cpp gen-cpp/helloSvc.cpp
 
 CC = g++
 LIBS = -lthrift

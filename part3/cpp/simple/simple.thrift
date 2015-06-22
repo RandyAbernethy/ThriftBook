@@ -1,4 +1,0 @@
-service Message {
-   string motd()
-}
-
