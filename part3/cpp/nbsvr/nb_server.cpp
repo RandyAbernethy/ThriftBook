@@ -11,6 +11,7 @@
 #include <thread>
 #include <iostream>
 #include <string>
+#include <atomic>
 
 using namespace ::apache::thrift::transport;
 using namespace ::apache::thrift::protocol;
@@ -30,12 +31,12 @@ public:
         if (nullptr != pSoc) {
             soc_info = pSoc->getSocketInfo();
         }
-        std::cout << "[Server] ConCreate:" <<  std::this_thread::get_id()
+        std::cout << "[Server] ConCreate : " <<  std::this_thread::get_id()
                   << ':' << con_id << ':' << call_count
                   << " (" << soc_info << ')' << std::endl;
     }
     virtual ~TradeHistoryHandler() {
-        std::cout << "[Server] ConDelete:" <<  std::this_thread::get_id()
+        std::cout << "[Server] ConDelete : " <<  std::this_thread::get_id()
                   << ':' << con_id << ':' << call_count << std::endl;
     }
     void get_last_sale(TradeReport& trade, const std::string& symbol) override {
@@ -51,6 +52,7 @@ public:
             trade.price = 0.0;
             trade.size = 0;
         }
+
         std::cout << "[Server] GetLastSale(" <<  std::this_thread::get_id()
                   << ':' << con_id << ':' << call_count << ") returning: "
                   << trade.seq_num << "> "
@@ -75,36 +77,42 @@ private:
 
 
 int main() {
+    //Setup server parameters
     auto port = 9090;
     auto hw_threads = std::thread::hardware_concurrency();
     int io_threads = hw_threads / 2 + 1;
     int worker_threads = hw_threads * 1.5 + 1;
 
+    //Create I/O factories
     auto handler_fac = make_shared<TradeHistoryIfInstanceFactory>();
     auto proc_fac = make_shared<TradeHistoryProcessorFactory>(handler_fac);
     auto proto_fac = make_shared<TCompactProtocolFactoryT<TFramedTransport>>();
 
+    //Setup the worker-thread manager
     auto thread_man = ThreadManager::newSimpleThreadManager(worker_threads);
     thread_man->threadFactory(make_shared<PlatformThreadFactory>());
     thread_man->start();
 
+    //Start the server on a background thread
     TNonblockingServer server(proc_fac, proto_fac, port, thread_man);
     server.setNumIOThreads(io_threads);
     std::thread server_thread([&server](){server.serve();});
 
+    //Log status and wait for user to quit
     std::string str;
     do {
         std::cout << "[Server (" << hw_threads << ", "
-                  << io_threads << '/' << worker_threads << "):" 
+                  << server.getNumIOThreads() << '/'
+                  << thread_man->workerCount() << "):"
                   << port << "] Enter 'q' to quit" << std::endl;
         std::getline(std::cin, str);
     } while (str[0] != 'q');
 
+    //Stop the server, wait for I/O and worker threads then exit
     server.stop();
     std::cout   << "waiting for server to exit..." << std::endl;
     server_thread.join();
     std::cout << "service complete, exiting." << std::endl;
-
     return 0;
 }
 
