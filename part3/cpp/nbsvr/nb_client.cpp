@@ -16,10 +16,9 @@ using boost::shared_ptr;
 using boost::make_shared;
 
 int main() {
-    shared_ptr<TTransport> trans;
-    trans = make_shared<TSocket>("localhost", 9090);
-    trans = make_shared<TFramedTransport>(trans);
-    auto proto = make_shared<TCompactProtocol>(trans);
+    auto trans_ep = make_shared<TSocket>("localhost", 9090);
+    auto trans = make_shared<TFramedTransport>(trans_ep);
+    auto proto = make_shared<TCompactProtocolT<TFramedTransport>>(trans);
     TradeHistoryClient client(proto);
 
     try {
