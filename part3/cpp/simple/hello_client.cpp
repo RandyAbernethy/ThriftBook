@@ -1,19 +1,21 @@
-#include <iostream>
-#include <boost/make_shared.hpp>
-#include <boost/shared_ptr.hpp>
+#include "gen-cpp/helloSvc.h"
 #include <thrift/transport/TSocket.h>
 #include <thrift/transport/TBufferTransports.h>
 #include <thrift/protocol/TBinaryProtocol.h>
-#include "gen-cpp/helloSvc.h"
+#include <boost/make_shared.hpp>
+#include <boost/shared_ptr.hpp>
+#include <iostream>
 
 using namespace apache::thrift::transport;
 using namespace apache::thrift::protocol;
+using boost::shared_ptr;
+using boost::make_shared;
 
 int main() {
-    boost::shared_ptr<TTransport> trans;
-    trans = boost::make_shared<TSocket>("localhost", 8585);
-    trans = boost::make_shared<TBufferedTransport>(trans);
-    auto proto = boost::make_shared<TBinaryProtocol>(trans);
+    shared_ptr<TTransport> trans;
+    trans = make_shared<TSocket>("localhost", 9090);
+    trans = make_shared<TBufferedTransport>(trans);
+    auto proto = make_shared<TBinaryProtocol>(trans);
     helloSvcClient client(proto);
 
     try {
@@ -22,7 +24,7 @@ int main() {
         client.getMessage(msg, "world!");
         std::cout << msg << std::endl;
     } catch(...) {
-        std::cout << "Client threw an exception" << std::endl;
+        std::cout << "Client caught an exception" << std::endl;
     } 
     trans->close();
 }

@@ -10,7 +10,7 @@ THRIFT = thrift -gen cpp
 
 all: server client
 
-gen-cpp/Message.cpp: $(IDL)
+gen-cpp/helloSvc.cpp: $(IDL)
 	$(THRIFT) $(IDL)
 
 server: $(SVRSRC)

@@ -1,11 +1,11 @@
-#include <iostream>
-#include <boost/make_shared.hpp>
-#include <boost/shared_ptr.hpp>
+#include "gen-cpp/helloSvc.h"
 #include <thrift/server/TSimpleServer.h>
-#include <thrift/protocol/TBinaryProtocol.h>
 #include <thrift/transport/TServerSocket.h>
 #include <thrift/transport/TBufferTransports.h>
-#include "gen-cpp/helloSvc.h"
+#include <thrift/protocol/TBinaryProtocol.h>
+#include <boost/make_shared.hpp>
+#include <boost/shared_ptr.hpp>
+#include <iostream>
 
 using namespace ::apache::thrift::server;
 using namespace ::apache::thrift::protocol;
@@ -24,7 +24,7 @@ public:
 int main() {
     auto handler = make_shared<helloSvcHandler>();
     auto proc = make_shared<helloSvcProcessor>(handler);
-    auto svr_trans = make_shared<TServerSocket>(8585);
+    auto svr_trans = make_shared<TServerSocket>(9090);
     auto trans_fac = make_shared<TBufferedTransportFactory>();
     auto proto_fac = make_shared<TBinaryProtocolFactory>();
     TSimpleServer server(proc, svr_trans, trans_fac, proto_fac);
