@@ -86,7 +86,7 @@ int main() {
     //Create I/O factories
     auto handler_fac = make_shared<TradeHistoryIfInstanceFactory>();
     auto proc_fac = make_shared<TradeHistoryProcessorFactory>(handler_fac);
-    auto proto_fac = make_shared<TCompactProtocolFactoryT<TFramedTransport>>();
+    auto proto_fac = make_shared<TCompactProtocolFactoryT<TMemoryBuffer>>();
 
     //Setup the worker-thread manager
     auto thread_man = ThreadManager::newSimpleThreadManager(worker_threads);
