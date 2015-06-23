@@ -67,10 +67,10 @@ private:
 class TradeHistoryIfInstanceFactory : virtual public TradeHistoryIfFactory {
 public:
     TradeHistoryIfInstanceFactory() : con_count(0) {;}
-    virtual TradeHistoryIf* getHandler(const TConnectionInfo & ci) {
+    virtual TradeHistoryIf* getHandler(const TConnectionInfo & ci) override {
         return new TradeHistoryHandler(ci, ++con_count);
     }
-    virtual void releaseHandler(TradeHistoryIf * handler) { delete handler; }
+    virtual void releaseHandler(TradeHistoryIf * handler) override { delete handler; }
 private:
     int con_count;
 };
