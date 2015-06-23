@@ -1,5 +1,6 @@
 #include "gen-cpp/trade_report_types.h"
 #include "gen-cpp/TradeHistory.h"
+#include <thrift/Thrift.h>
 #include <thrift/transport/TSocket.h>
 #include <thrift/transport/TBufferTransports.h>
 #include <thrift/protocol/TCompactProtocol.h>
@@ -7,6 +8,7 @@
 #include <boost/shared_ptr.hpp>
 #include <iostream>
 
+using namespace apache::thrift;
 using namespace apache::thrift::transport;
 using namespace apache::thrift::protocol;
 using namespace TradeReporting;
@@ -26,7 +28,7 @@ int main() {
         std::string symbol("APPL");
         TradeReport trade;
         do {
-            client.GetLastSale(trade, symbol);
+            client.get_last_sale(trade, symbol);
             std::cout << std::boolalpha 
                       << "[Client] trade(" << symbol << "): " 
                       << trade.seq_num << ">  " 
@@ -36,9 +38,9 @@ int main() {
             std::cout << "enter 'q' to quit, anything else to GetLastSale" << std::endl;
             std::getline(std::cin, input);
         } while (input[0] != 'q');
-    } catch(TTransportException te) {
+    } catch(const TTransportException& te) {
         std::cout << "Client caught a TTransportException: " << te.what() << std::endl;
-    } catch(TException e) {
+    } catch(const TException& e) {
         std::cout << "Client caught a TException: " << e.what() << std::endl;
     } catch(...) {
         std::cout << "Client caught an exception" << std::endl;

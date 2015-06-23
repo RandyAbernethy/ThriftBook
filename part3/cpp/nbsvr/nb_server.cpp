@@ -1,42 +1,44 @@
 #include "gen-cpp/trade_report_types.h"
 #include "gen-cpp/TradeHistory.h"
+#include <thrift/TProcessor.h>
 #include <thrift/transport/TBufferTransports.h>
 #include <thrift/protocol/TCompactProtocol.h>
-#include <thrift/TProcessor.h>
 #include <thrift/server/TNonblockingServer.h>
+#include <thrift/concurrency/ThreadManager.h>
+#include <thrift/concurrency/PlatformThreadFactory.h>
 #include <boost/make_shared.hpp>
 #include <boost/shared_ptr.hpp>
 #include <thread>
 #include <iostream>
 #include <string>
-#include <functional>
-#include <atomic>
 
 using namespace ::apache::thrift::transport;
 using namespace ::apache::thrift::protocol;
 using namespace ::apache::thrift::server;
+using namespace ::apache::thrift::concurrency;
 using namespace ::apache::thrift;
 using namespace TradeReporting;
 using boost::shared_ptr;
 using boost::make_shared;
 
 class TradeHistoryHandler : virtual public TradeHistoryIf {
-public: 
-    TradeHistoryHandler(const TConnectionInfo & ci, int con_count) : con_id(con_count), call_count(0) {
+public:
+    TradeHistoryHandler(const TConnectionInfo & ci, int con_count) :
+            con_id(con_count), call_count(0) {
         TSocket * pSoc = dynamic_cast<TSocket *>(ci.transport.get());
         std::string soc_info;
         if (nullptr != pSoc) {
             soc_info = pSoc->getSocketInfo();
         }
-        std::cout << "[Server] ConCreate:" <<  std::this_thread::get_id() 
-                  << ':' << con_id << ':' << call_count 
+        std::cout << "[Server] ConCreate:" <<  std::this_thread::get_id()
+                  << ':' << con_id << ':' << call_count
                   << " (" << soc_info << ')' << std::endl;
     }
     virtual ~TradeHistoryHandler() {
-        std::cout << "[Server] ConDelete:" <<  std::this_thread::get_id() 
+        std::cout << "[Server] ConDelete:" <<  std::this_thread::get_id()
                   << ':' << con_id << ':' << call_count << std::endl;
     }
-    void GetLastSale(TradeReport& trade, const std::string& symbol) override {
+    void get_last_sale(TradeReport& trade, const std::string& symbol) override {
         trade.seq_num = (con_id * 10000) + (++call_count);
         trade.symbol = symbol;
         if (0 == symbol.compare("APPL")) {
@@ -49,13 +51,13 @@ public:
             trade.price = 0.0;
             trade.size = 0;
         }
-        std::cout << "[Server] GetLastSale(" <<  std::this_thread::get_id() 
-                  << ':' << con_id << ':' << call_count << ") returning: " 
+        std::cout << "[Server] GetLastSale(" <<  std::this_thread::get_id()
+                  << ':' << con_id << ':' << call_count << ") returning: "
                   << trade.seq_num << "> "
-                  << trade.symbol << " - " << trade.size << " @ " 
+                  << trade.symbol << " - " << trade.size << " @ "
                   << trade.price << std::endl;
     }
-private: 
+private:
     const int con_id;
     int call_count;
 };
@@ -63,11 +65,11 @@ private:
 class TradeHistoryIfInstanceFactory : virtual public TradeHistoryIfFactory {
 public:
     TradeHistoryIfInstanceFactory() : con_count(0) {;}
-    virtual TradeHistoryIf* getHandler(const TConnectionInfo & ci) { 
- 		return new TradeHistoryHandler(ci, ++con_count); 
- 	}
+    virtual TradeHistoryIf* getHandler(const TConnectionInfo & ci) {
+        return new TradeHistoryHandler(ci, ++con_count);
+    }
     virtual void releaseHandler(TradeHistoryIf * handler) { delete handler; }
-private: 
+private:
     int con_count;
 };
 
@@ -75,18 +77,26 @@ private:
 int main() {
     auto port = 9090;
     auto hw_threads = std::thread::hardware_concurrency();
+    int io_threads = hw_threads / 2 + 1;
+    int worker_threads = hw_threads * 1.5 + 1;
 
     auto handler_fac = make_shared<TradeHistoryIfInstanceFactory>();
     auto proc_fac = make_shared<TradeHistoryProcessorFactory>(handler_fac);
     auto proto_fac = make_shared<TCompactProtocolFactoryT<TFramedTransport>>();
- 
-    TNonblockingServer server(proc_fac, proto_fac, port);
-    server.setNumIOThreads(1 + hw_threads);
-    std::thread server_thread(std::bind(&TNonblockingServer::serve, &server));
+
+    auto thread_man = ThreadManager::newSimpleThreadManager(worker_threads);
+    thread_man->threadFactory(make_shared<PlatformThreadFactory>());
+    thread_man->start();
+
+    TNonblockingServer server(proc_fac, proto_fac, port, thread_man);
+    server.setNumIOThreads(io_threads);
+    std::thread server_thread([&server](){server.serve();});
 
     std::string str;
     do {
-        std::cout << "[Server:" << hw_threads << ':' << port << "] Enter 'q' to quit" << std::endl;
+        std::cout << "[Server (" << hw_threads << ", "
+                  << io_threads << '/' << worker_threads << "):" 
+                  << port << "] Enter 'q' to quit" << std::endl;
         std::getline(std::cin, str);
     } while (str[0] != 'q');
 
@@ -97,3 +107,4 @@ int main() {
 
     return 0;
 }
+

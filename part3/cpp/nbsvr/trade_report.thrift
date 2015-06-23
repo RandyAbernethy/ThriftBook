@@ -10,6 +10,6 @@ struct TradeReport {
 } 
 
 service TradeHistory {
-    TradeReport GetLastSale(1: string Symbol) 
+    TradeReport get_last_sale(1: string Symbol) 
 }
 
