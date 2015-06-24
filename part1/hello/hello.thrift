@@ -1,6 +1,6 @@
 // Apache Thrift Hello World service IDL
 
 service HelloSvc {
-    string hello_func(),
+    string hello_func()
 }
 
