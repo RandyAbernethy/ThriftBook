@@ -16,10 +16,10 @@ class HelloHandler:
 
 handler = HelloHandler()
 proc = HelloSvc.Processor(handler)
-trans_ep = TSocket.TServerSocket(port=9095)
+trans_svr = TSocket.TServerSocket(port=9090)
 trans_fac = TTransport.TBufferedTransportFactory()
 proto_fac = TBinaryProtocol.TBinaryProtocolFactory()
-server = TProcessPoolServer.TProcessPoolServer(proc, trans_ep, trans_fac, proto_fac)
+server = TProcessPoolServer.TProcessPoolServer(proc, trans_svr, trans_fac, proto_fac)
 
 print("[Server] Started")
 server.serve()
