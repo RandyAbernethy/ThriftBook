@@ -12,10 +12,7 @@ struct Trade {
 int main() {
     apache::thrift::transport::TMemoryBuffer trans(4096);
 
-    Trade trade;
-    trade.symbol[0] = 'F'; trade.symbol[1] = '\0';
-    trade.price = 13.10;
-    trade.size = 2500;
+    Trade trade{ "F", 13.10, 2500 };
     trans.write(reinterpret_cast<const uint8_t *>(&trade), sizeof(trade));
 
     uint32_t len = sizeof(trade);
