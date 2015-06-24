@@ -1,0 +1,20 @@
+TARGET = client_old
+IDL = hello_name_old.thrift
+CLISRC = hello_client_old.cpp gen-cpp/HelloSvc.cpp
+
+CC = g++
+LIBS = -lthrift
+CFLAGS = -Wall -std=c++11
+THRIFT = thrift -gen cpp
+
+all: client_old
+
+gen-cpp/HelloSvc.cpp: $(IDL)
+	$(THRIFT) $(IDL)
+
+client_old: $(CLISRC)
+	$(CC) -o $@ $(CLISRC) $(CFLAGS) $(LIBS)
+	
+clean:
+	$(RM) -r gen-cpp
+	$(RM) $(TARGET)

@@ -16,7 +16,7 @@ class HelloHandler:
 
 handler = HelloHandler()
 proc = HelloSvc.Processor(handler)
-trans_ep = TSocket.TServerSocket(port=9095)
+trans_ep = TSocket.TServerSocket(port=9090)
 trans_fac = TTransport.TBufferedTransportFactory()
 proto_fac = TJSONProtocol.TJSONProtocolFactory()
 server = TProcessPoolServer.TProcessPoolServer(proc, trans_ep, trans_fac, proto_fac)
