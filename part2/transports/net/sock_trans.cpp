@@ -1,9 +1,9 @@
 // Apache Thrift Network Transport in C++ 
 
-#include <memory>
-#include <iostream>
 #include <thrift/transport/TSocket.h>			
 #include <thrift/transport/TSimpleFileTransport.h>	
+#include <memory>
+#include <iostream>
 
 using namespace apache::thrift::transport;
 
