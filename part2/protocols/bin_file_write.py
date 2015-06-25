@@ -15,9 +15,9 @@ trans = TTransport.TFileObjectTransport(open("data","wb"))
 proto = TBinaryProtocol.TBinaryProtocol(trans)
 
 trade = Trade()
-trade.symbol = "F"
-trade.price = 13.10
-trade.size = 2500
+trade.symbol = "GE"
+trade.price = 27.25
+trade.size = 1700
 trade.timestamp = 9.5
 
 proto.writeStructBegin("Trade")

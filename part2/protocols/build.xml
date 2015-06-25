@@ -1,0 +1,29 @@
+<project default="all">
+    <target name="clean">
+        <delete>
+            <fileset dir="." includes="*.class"/>
+        </delete>
+        <delete>
+            <fileset dir="." includes="data"/>
+        </delete>
+        <delete>
+            <fileset dir="." includes="data.comp"/>
+        </delete>
+    </target>
+   
+    <target name="compile">
+        <javac includeantruntime="false" classpath="/usr/local/lib/libthrift-1.0.0.jar:gen-java" srcdir="." destdir="."/>
+    </target>
+   
+    <target name="runBinFileRead">
+        <java classname="BinFileRead" classpath="/usr/local/lib/libthrift-1.0.0.jar:/usr/share/java/slf4j-api.jar:/usr/share/java/slf4j-nop.jar:gen-java:."/>
+    </target>
+    <target name="runBinMem">
+        <java classname="BinMem" classpath="/usr/local/lib/libthrift-1.0.0.jar:/usr/share/java/slf4j-api.jar:/usr/share/java/slf4j-nop.jar:gen-java:."/>
+    </target>
+    <target name="runCompFileWrite">
+        <java classname="CompFileWrite" classpath="/usr/local/lib/libthrift-1.0.0.jar:/usr/share/java/slf4j-api.jar:/usr/share/java/slf4j-nop.jar:gen-java:."/>
+    </target>
+   
+    <target name="all" depends="clean,compile"/>
+</project>

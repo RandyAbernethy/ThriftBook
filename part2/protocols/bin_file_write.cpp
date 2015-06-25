@@ -1,15 +1,15 @@
 // Apache Thrift Binary Protocol Struct Writer in C++ 
 
-#include <iostream>
-#include <string>
-#include <boost/shared_ptr.hpp>
-#include <boost/make_shared.hpp>
 #include <thrift/transport/TSimpleFileTransport.h>
 #include <thrift/protocol/TProtocol.h>
 #include <thrift/protocol/TBinaryProtocol.h>
+#include <boost/make_shared.hpp>
+#include <iostream>
+#include <string>
 
 using namespace apache::thrift::transport;
 using namespace apache::thrift::protocol;
+using boost::make_shared;
 
 struct Trade {
    char symbol [16];
@@ -19,17 +19,11 @@ struct Trade {
 
 int main()
 {
-    Trade trade;
-    trade.symbol [0] = 'F'; trade.symbol[1] = '\0';
-    trade.price = 13.10;
-    trade.size = 2500;
+    auto path_name = "data";
+    auto trans = make_shared<TSimpleFileTransport>(path_name, false, true);
+    auto proto = make_shared<TBinaryProtocol>(trans);
 
-    const std::string path_name("data");
-    boost::shared_ptr<TTransport> trans =
-        boost::make_shared<TSimpleFileTransport>(path_name, false, true);
-    boost::shared_ptr<TProtocol> proto =
-        boost::make_shared<TBinaryProtocol>(trans);
-
+    Trade trade{"F", 13.10, 2500};
     int i = 0;
     i += proto->writeStructBegin("Trade");
 

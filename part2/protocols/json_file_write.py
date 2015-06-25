@@ -10,7 +10,7 @@ class Trade:
         price=0.0
         size=0
 
-trans = TTransport.TFileObjectTransport(open("data","wb"))
+trans = TTransport.TFileObjectTransport(open("data.json","wb"))
 proto = TJSONProtocol.TJSONProtocol(trans)					
 
 trade = Trade()

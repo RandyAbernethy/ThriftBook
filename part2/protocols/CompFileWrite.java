@@ -18,7 +18,7 @@ public class CompFileWrite {
     };
 
     public static void main(String[] args) throws TException {
-        TTransport trans = new TSimpleFileTransport("/tmp/thrift_data", false, true);
+        TTransport trans = new TSimpleFileTransport("data.comp", false, true);
         TProtocol proto = new TCompactProtocol(trans);			
 
         Trade trade = new Trade();
