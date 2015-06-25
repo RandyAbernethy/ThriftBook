@@ -26,9 +26,10 @@ int main()
 
     while (true) {
         auto trans_ep = acceptor->accept();
-        std::cout << "[Server] handling request" << std::endl;
         auto trans = make_shared<TFramedTransport>(trans_ep);
-        trans->read(reinterpret_cast<uint8_t *>(buf), buf_size);
+        auto len = trans->read(reinterpret_cast<uint8_t *>(buf), buf_size);
+        buf[(0 < len && len < buf_size) ? len : 0] = '\0';
+        std::cout << "[Server] handling request: " << buf << std::endl;
         trans->write(reinterpret_cast<const uint8_t *>(msg.c_str()), msg.length());
         trans->flush();
         trans->close();
