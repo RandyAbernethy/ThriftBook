@@ -2,19 +2,19 @@
 
 from thrift.transport import TSocket
 
-acceptor = TSocket.TServerSocket(port=8585)
+acceptor = TSocket.TServerSocket(port=9090)
 acceptor.listen();
-print("[Server] listening on port 8585")
+print("[Server] listening on port 9090")
 
 while (True):
     trans = acceptor.accept();
-    print("[Server] handling request")
     data = trans.read(1024*8)
-    if data[:4] == "STOP":
-        break
+    print("[Server] handling request: " + data)
     trans.write("Hello Thrift!");
     trans.flush()
     trans.close() 
+    if data[:4] == "STOP":
+        break
 
 print("[Server] exiting")
 acceptor.close()
