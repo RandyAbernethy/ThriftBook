@@ -1,6 +1,6 @@
 struct tree {
-   1: tree left (cpp.ref="")
-   2: tree right (cpp.ref="")
+   1: tree &left
+   2: tree &right
 }
 
 service simple {
