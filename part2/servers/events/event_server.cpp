@@ -1,10 +1,5 @@
 #include "server_event_handler.h"				
-#include <iostream>
-#include <string>
-#include <thread>
-#include <functional>
-#include <boost/shared_ptr.hpp>
-#include <boost/make_shared.hpp>
+#include "gen-cpp/Message.h"
 #include <thrift/transport/TServerSocket.h>
 #include <thrift/transport/TBufferTransports.h>
 #include <thrift/protocol/TCompactProtocol.h>
@@ -12,7 +7,12 @@
 #include <thrift/concurrency/PlatformThreadFactory.h>
 #include <thrift/server/TServer.h>
 #include <thrift/server/TThreadPoolServer.h>
-#include "gen-cpp/Message.h"
+#include <boost/shared_ptr.hpp>
+#include <boost/make_shared.hpp>
+#include <iostream>
+#include <string>
+#include <thread>
+#include <functional>
 
 using namespace ::apache::thrift;				
 using namespace ::apache::thrift::protocol;		
@@ -37,10 +37,10 @@ private:
 
 int main(int argc, char **argv) {
   //Setup the socket server and the service processor and handler
-  const int port = 8585;
+  const int port = 9090;
   auto handler = make_shared<MessageHandler>();			
   auto proc = make_shared<MessageProcessor>(handler);		
-  auto svr_trans = make_shared<TServerSocket>(port);		
+  auto trans_svr = make_shared<TServerSocket>(port);		
 
   //Setup the protocol and layered transport factories		
   auto trans_fac = make_shared<TBufferedTransportFactory>();
@@ -53,10 +53,10 @@ int main(int argc, char **argv) {
   t_man->start(); 								
 
   //Setup the server and run it on a background thread
-  TThreadPoolServer server(proc, svr_trans, trans_fac, proto_fac, t_man);
+  TThreadPoolServer server(proc, trans_svr, trans_fac, proto_fac, t_man);
   server.setTimeout(3000);							
   server.setServerEventHandler(make_shared<PoolSvrEvtHandler>(t_man,2,4));
-  std::thread server_thread(std::bind(&TThreadPoolServer::serve, &server));
+  std::thread server_thread([&server](){server.serve();});
 										
   //Wait for the user to quit
   std::string str;								

@@ -1,19 +1,20 @@
-#include <iostream>
-#include <string>
-#include <boost/shared_ptr.hpp>
+#include "gen-cpp/Message.h"
 #include <thrift/transport/TSocket.h>
 #include <thrift/transport/TBufferTransports.h>
 #include <thrift/protocol/TCompactProtocol.h>
-#include "gen-cpp/Message.h"                    
+#include <boost/shared_ptr.hpp>
+#include <iostream>
+#include <string>
 
-using namespace apache::thrift::transport;  
-using namespace apache::thrift::protocol;   
+using namespace apache::thrift::transport;
+using namespace apache::thrift::protocol;
+using boost::shared_ptr;
 
 class ThriftProxy {
 public:
     ThriftProxy() :
-        trans(new TSocket("localhost", 8585)),
-        proto(new TCompactProtocol(trans)),
+        trans = make_shared<TSocket>("localhost", 9090),
+        proto = make_shared<TCompactProtocol>(trans),
         client_(proto) 
     {
         trans->open();
@@ -30,8 +31,8 @@ public:
     }
     
 private:
-    boost::shared_ptr<TSocket> trans;
-    boost::shared_ptr<TProtocol> proto;
+    shared_ptr<TTransport> trans;
+    shared_ptr<TProtocol> proto;
     MessageClient client_;
 };
 

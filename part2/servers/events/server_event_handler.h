@@ -1,14 +1,15 @@
 #ifndef _MY_SERVER_EVENT_HANDLER_H_
 #define _MY_SERVER_EVENT_HANDLER_H_ 1
 
-#include <sstream>
-#include <string>
-#include <boost/shared_ptr.hpp>
 #include <thrift/transport/TTransport.h>
 #include <thrift/protocol/TProtocol.h>
 #include <thrift/concurrency/ThreadManager.h>
 #include <thrift/concurrency/PlatformThreadFactory.h>
 #include <thrift/server/TServer.h>
+#include <boost/shared_ptr.hpp>
+#include <iostream>
+#include <sstream>
+#include <string>
 
 class PoolSvrEvtHandler : public apache::thrift::server::TServerEventHandler {
 public:
