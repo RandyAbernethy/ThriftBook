@@ -3,20 +3,20 @@
 from thrift.transport import TSocket
 from thrift.transport import TTransport
 
-acceptor = TSocket.TServerSocket(port=8585)
+acceptor = TSocket.TServerSocket(port=9090)
 acceptor.listen();
-print("[Server] listening on port 8585")
+print("[Server] listening on port 9090")
 
 while (True):
-    ep_trans = acceptor.accept();
-    trans = TTransport.TFramedTransport(ep_trans)
-    print("[Server] handling request")
+    trans_ep = acceptor.accept();
+    trans = TTransport.TFramedTransport(trans_ep)
     data = trans.read(1024*8)
-    if data[:4] == "STOP":
-        break
+    print("[Server] handling request: %s" % (data))
     trans.write("Hello Thrift!");
     trans.flush()
     trans.close() 
+    if data[:4] == "STOP":
+        break
 
 print("[Server] exiting")
 acceptor.close()
