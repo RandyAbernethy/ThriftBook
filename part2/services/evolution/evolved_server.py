@@ -1,5 +1,6 @@
 import sys
 sys.path.append('gen-py')
+
 from thrift.transport import TSocket
 from thrift.server import TServer
 from evolved import SocialLookup
@@ -28,8 +29,8 @@ class SocialLookupHandler(SocialLookup.Iface):
                 if v[1] >= minUserCount and v[1] <= maxUserCount]
 
 if __name__ == "__main__": 
-    svr_trans = TSocket.TServerSocket(port=8585)
-    processor = SocialLookup.Processor(SocialLookupHandler())
-    server = TServer.TSimpleServer(processor, svr_trans)
+    trans_svr = TSocket.TServerSocket(port=9090)
+    proc = SocialLookup.Processor(SocialLookupHandler())
+    server = TServer.TSimpleServer(proc, trans_svr)
     server.serve()
 
