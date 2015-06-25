@@ -1,16 +1,17 @@
-#include <iostream>
-#include <iomanip>
-#include <boost/make_shared.hpp>
+#include "gen-cpp/simple_udt_types.h"
 #include <thrift/transport/TBufferTransports.h>
 #include <thrift/protocol/TBinaryProtocol.h>
-#include "gen-cpp/simple_udt_types.h"
+#include <boost/make_shared.hpp>
+#include <iostream>
+#include <iomanip>
 
 using namespace apache::thrift::transport;
 using namespace apache::thrift::protocol;
+using boost::make_shared;
 
 int main() {
-    auto trans = boost::make_shared<TMemoryBuffer>(1024);
-    auto proto = boost::make_shared<TBinaryProtocol>(trans);
+    auto trans = make_shared<TMemoryBuffer>(1024);
+    auto proto = make_shared<TBinaryProtocol>(trans);
 
     EarthRelPosition ep;
     ep.latitude = 0.0;
