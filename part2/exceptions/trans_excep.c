@@ -1,8 +1,8 @@
 //c_glib memory transport demo
 //Build with: 
 //gcc trans_excep.c `pkg-config --cflags thrift_c_glib --libs thrift_c_glib`
-#include <stdio.h>
 #include <thrift/c_glib/transport/thrift_memory_buffer.h>
+#include <stdio.h>
 
 struct Trade {
    char symbol[16];

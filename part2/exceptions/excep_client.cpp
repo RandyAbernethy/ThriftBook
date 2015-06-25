@@ -11,18 +11,19 @@
 
 using namespace apache::thrift::transport;
 using namespace apache::thrift::protocol;
+using boost::shared_ptr;
+using boost::make_shared;
 
 int main(int argv, char * argc[]) {
-    boost::shared_ptr<TTransport> trans;
-    trans = boost::make_shared<TSocket>("localhost", 8585);
-    trans = boost::make_shared<TBufferedTransport>(trans);
-    trans->open();
-
-    auto proto = boost::make_shared<TBinaryProtocol>(trans);
+    shared_ptr<TTransport> trans;
+    trans = make_shared<TSocket>("localhost", 9090);
+    trans = make_shared<TBufferedTransport>(trans);
+    auto proto = make_shared<TBinaryProtocol>(trans);
     TradeHistoryClient client(proto);
 
     try {
-        double price = client.GetLastSale(argc[1]);
+        trans->open();
+        auto price = client.GetLastSale(argc[1]);
         std::cout << "[Client] received: " << price << std::endl;
     } catch (const BadFish & bf) {
         std::cout << "[Client] GetLastSale() call failed for fish: "
@@ -30,4 +31,5 @@ int main(int argv, char * argc[]) {
     } catch (...) {
         std::cout << "[Client] GetLastSale() call failed" << std::endl;
     }
+    trans->close();
 }

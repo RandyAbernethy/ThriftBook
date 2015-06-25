@@ -9,14 +9,15 @@ from thrift.protocol import TBinaryProtocol
 from excep import TradeHistory
 from excep.ttypes import BadFish
 
-trans = TSocket.TSocket("localhost", 8585)
+trans = TSocket.TSocket("localhost", 9090)
 trans = TTransport.TBufferedTransport(trans)
-trans.open()
-
 proto = TBinaryProtocol.TBinaryProtocol(trans)
 client = TradeHistory.Client(proto)
+
 try:
+    trans.open()
     print("[Client] received: %f" % client.GetLastSale(sys.argv[1]))
 except BadFish as bf:
     print("[Client] GetLastSale() call failed for fish: %s, error %d" % (bf.fish, bf.error_code))
 
+trans.close()

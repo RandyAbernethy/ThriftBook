@@ -12,13 +12,12 @@
 using namespace ::apache::thrift::protocol;
 using namespace ::apache::thrift::transport;
 using namespace ::apache::thrift::server;
-
 using boost::shared_ptr;
 using boost::make_shared;
 
 class TradeHistoryHandler : virtual public TradeHistoryIf {
 public:
-    double GetLastSale(const std::string& fish) {
+    double GetLastSale(const std::string& fish) override {
         if (0 != fish.compare("Halibut")) {
             BadFish bf;
             bf.fish = fish;
@@ -30,19 +29,15 @@ public:
 };
 
 int main(int argc, char **argv) {
-  int port = 8585;
+  int port = 9090;
 
   auto handler = make_shared<TradeHistoryHandler>();
-  shared_ptr<TProcessor> proc =
-    make_shared<TradeHistoryProcessor>(handler);
-  shared_ptr<TServerTransport> svr_trans =
-    make_shared<TServerSocket>(port);
-  shared_ptr<TTransportFactory> trans_fac =
-    make_shared<TBufferedTransportFactory>();
-  shared_ptr<TProtocolFactory> proto_fac =
-    make_shared<TBinaryProtocolFactory>();
+  auto proc = make_shared<TradeHistoryProcessor>(handler);
+  auto trans_svr = make_shared<TServerSocket>(port);
+  auto trans_fac = make_shared<TBufferedTransportFactory>();
+  auto proto_fac = make_shared<TBinaryProtocolFactory>();
 
-  TSimpleServer server(proc, svr_trans, trans_fac, proto_fac);
+  TSimpleServer server(proc, trans_svr, trans_fac, proto_fac);
   server.serve();
   return 0;
 }

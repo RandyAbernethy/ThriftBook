@@ -1,13 +1,12 @@
-// Apache Thrift Transport Exceptions in C++ 
+// Apache Thrift Transport Exceptions in C++
 
+#include <thrift/Thrift.h>
+#include <thrift/transport/TTransportException.h>
+#include <thrift/transport/TSimpleFileTransport.h>
 #include <iostream>
 #include <exception>					
 #include <memory>
 #include <cstring>
-#include <thrift/config.h>
-#include <thrift/Thrift.h>
-#include <thrift/transport/TTransportException.h>		
-#include <thrift/transport/TSimpleFileTransport.h>
 
 using namespace apache::thrift::transport;
 
