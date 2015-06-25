@@ -1,36 +1,38 @@
 // Apache Thrift Manual Framing Network Transport Client in C++ 
 
+#include <thrift/transport/TSocket.h>
 #include <string>
 #include <iostream>
 #include <memory>
-#include <thrift/transport/TSocket.h>
 
 using namespace apache::thrift::transport;
 
 int main(int argv, char **argc)
 {
     //Connect to the server
-    std::unique_ptr<TTransport> upTrans(new TSocket("localhost", 8585));
-    upTrans->open();
+    auto trans = std::make_shared<TSocket>("localhost", 9090);
+    trans->open();
 
     //Send a framed message
-    const std::string msg(argc[1]);
+    const std::string msg = (argv >1) ? argc[1] : "Test";
     uint32_t frame_size = htonl(msg.length());
-    upTrans->write(reinterpret_cast<const uint8_t *>(&frame_size), 4);
-    upTrans->write(reinterpret_cast<const uint8_t *>(msg.c_str()), msg.length());
-    upTrans->flush();
+    trans->write(reinterpret_cast<const uint8_t *>(&frame_size), 4);
+    trans->write(reinterpret_cast<const uint8_t *>(msg.c_str()), msg.length());
+    trans->flush();
 
     //Receive a framed response
-    upTrans->read(reinterpret_cast<uint8_t *>(&frame_size), 4);
+    trans->read(reinterpret_cast<uint8_t *>(&frame_size), 4);
     frame_size = ntohl(frame_size);
-	std::unique_ptr<char[]> upBuf(new char[frame_size+1]);
-    int bytes_read = upTrans->read(reinterpret_cast<uint8_t *>(upBuf.get()), frame_size);
+    std::unique_ptr<char[]> buf(new char[frame_size+1]);
+    auto bytes_read = trans->read(reinterpret_cast<uint8_t *>(buf.get()), frame_size);
     if (frame_size == bytes_read) {
-        upBuf[bytes_read] = '\0';
-        std::cout << upBuf.get() << std::endl;
+        buf[bytes_read] = '\0';
+        std::cout << "[Client] " << buf.get() << std::endl;
+    } else {
+        std::cout << "[Client] Error: Bad Frame Size!!" << std::endl;
     }
 
     //Cleanup
-    upTrans->close();
+    trans->close();
 }
 
