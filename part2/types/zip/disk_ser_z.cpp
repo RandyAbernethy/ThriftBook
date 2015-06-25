@@ -1,16 +1,18 @@
 // ZLib serialization compression
 
-#include <iostream>
-#include <boost/shared_ptr.hpp>
-#include <boost/make_shared.hpp>
+#include "gen-cpp/radio_observation_types.h"
 #include <thrift/transport/TSimpleFileTransport.h>
 #include <thrift/transport/TZlibTransport.h>
 #include <thrift/protocol/TBinaryProtocol.h>
-#include "gen-cpp/radio_observation_types.h"
+#include <boost/shared_ptr.hpp>
+#include <boost/make_shared.hpp>
+#include <iostream>
 
 using namespace apache::thrift::transport;
 using namespace apache::thrift::protocol;
 using namespace radio_observation;
+using boost::make_shared;
+using boost::shared_ptr;
 
 void DumpRadioObservation(const RadioObservation & ro) {
     auto it = _RadioObservationSystem_VALUES_TO_NAMES.find(ro.system);
@@ -41,10 +43,9 @@ int main(int argc, char *argv[]) {
     }
     try {
         std::cout << "Reading from uncompressed file: " << argv[1] << std::endl;
-        boost::shared_ptr<TTransport> trans = 
-            boost::make_shared<TSimpleFileTransport>(argv[1], true, true);
-        boost::shared_ptr<TProtocol> proto = 
-            boost::make_shared<TBinaryProtocol>(trans);
+        shared_ptr<TTransport> trans =
+            make_shared<TSimpleFileTransport>(argv[1], true, true);
+        auto proto = make_shared<TBinaryProtocol>(trans);
         trans->open();
         RadioObservation ro;
         ro.read(proto.get());
