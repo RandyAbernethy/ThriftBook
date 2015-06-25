@@ -1,18 +1,16 @@
-#include <string>
-#include <unordered_map>
-#include <boost/shared_ptr.hpp>
-#include <boost/make_shared.hpp>
+#include "gen-cpp/SocialUpdate.h"
 #include <thrift/transport/TBufferTransports.h>
 #include <thrift/protocol/TBinaryProtocol.h>
 #include <thrift/server/TSimpleServer.h>
 #include <thrift/transport/TServerSocket.h>
 #include <thrift/TProcessor.h>
-#include "gen-cpp/SocialUpdate.h"					
+#include <boost/make_shared.hpp>
+#include <string>
+#include <unordered_map>
 
 using namespace ::apache::thrift::protocol;
 using namespace ::apache::thrift::transport;
 using namespace ::apache::thrift::server;
-using boost::shared_ptr;
 using boost::make_shared;
 
 struct Site { std::string name; int users; };
@@ -50,12 +48,12 @@ public:
 };
 
 int main(int argc, char **argv) {
-  shared_ptr<SocialUpdateIf> handler = make_shared<SocialUpdateHandler>();
-  shared_ptr<TProcessor> proc = make_shared<SocialUpdateProcessor>(handler);
-  shared_ptr<TServerTransport> svr_trans = make_shared<TServerSocket>(8585);
-  shared_ptr<TTransportFactory> trans_fac = make_shared<TBufferedTransportFactory>();
-  shared_ptr<TProtocolFactory> proto_fac = make_shared<TBinaryProtocolFactory>();
-  TSimpleServer server(proc, svr_trans, trans_fac, proto_fac);
+  auto handler = make_shared<SocialUpdateHandler>();
+  auto proc = make_shared<SocialUpdateProcessor>(handler);
+  auto trans_svr = make_shared<TServerSocket>(9090);
+  auto trans_fac = make_shared<TBufferedTransportFactory>();
+  auto proto_fac = make_shared<TBinaryProtocolFactory>();
+  TSimpleServer server(proc, trans_svr, trans_fac, proto_fac);
   server.serve();
   return 0;
 }
