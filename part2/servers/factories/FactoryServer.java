@@ -10,12 +10,12 @@ import org.apache.thrift.transport.TFramedTransport;
 public class FactoryServer {
 
   public static void main(String[] args) throws TTransportException {
-    TServerSocket svrTrans = new TServerSocket(8585);
-    TProcessor processor = new Message.Processor<>(new MessageHandler());
+    TServerSocket trans_svr = new TServerSocket(9090);
+    TProcessor proc = new Message.Processor<>(new MessageHandler());
     
     TServer server = new TThreadPoolServer(
-            new TThreadPoolServer.Args(svrTrans)
-              .processor(processor)
+            new TThreadPoolServer.Args(trans_svr)
+              .processor(proc)
               .protocolFactory(new TJSONProtocol.Factory())
               .inputTransportFactory(new TFramedTransport.Factory())
               .outputTransportFactory(new TWritelogTransportFactory(100)));

@@ -2,6 +2,7 @@
 
 import sys
 sys.path.append("gen-py")
+
 from thrift.transport import TTransport
 from thrift.transport import TSocket
 from thrift.protocol import TJSONProtocol
@@ -22,11 +23,11 @@ class MessageHandler(Message.Iface):
 if __name__ == "__main__": 
     handler = MessageHandler()
     proc = Message.Processor(handler)
-    svr_trans = TSocket.TServerSocket(port=8585)
+    trans_svr = TSocket.TServerSocket(port=9090)
     
     trans_fac = TTransport.TFramedTransportFactory()
     proto_fac = TJSONProtocol.TJSONProtocolFactory()
     
-    server = TServer.TThreadedServer(proc, svr_trans, trans_fac, proto_fac)
+    server = TServer.TThreadedServer(proc, trans_svr, trans_fac, proto_fac)
     server.serve()
 

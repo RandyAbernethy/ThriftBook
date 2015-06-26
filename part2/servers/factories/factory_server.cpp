@@ -1,33 +1,39 @@
-#include <string>
-#include <boost/shared_ptr.hpp>
+#include "gen-cpp/Message.h"
 #include <thrift/protocol/TJSONProtocol.h>
 #include <thrift/server/TThreadedServer.h>
 #include <thrift/transport/TServerSocket.h>
 #include <thrift/transport/TTransport.h>
 #include <thrift/TProcessor.h>
-#include "gen-cpp/Message.h"
+#include <boost/make_shared.hpp>
+#include <boost/shared_ptr.hpp>
+#include <iostream>
+#include <string>
 
 using namespace ::apache::thrift::protocol;
 using namespace ::apache::thrift::transport;
 using namespace ::apache::thrift::server;
 using namespace ::apache::thrift;
+using boost::make_shared;
 using boost::shared_ptr;
 
 const char * msgs[] = {"Apache Thrift!!",
                        "Childhood is a short season",
                        "'Twas brillig"};
+
 class MessageHandler : public MessageIf {
 public:
     MessageHandler(int conn_no) : 
         msg_index(0), connection_no(conn_no) {;}
     virtual void motd(std::string& _return) override {
-        std::cout << "[" << connection_no << "] Call count: " << ++msg_index << std::endl;
+        std::cout << "[" << connection_no << "] Call count: "
+                  << ++msg_index << std::endl;
         _return = msgs[msg_index%3];
     }
 private:
     unsigned int msg_index;
     unsigned int connection_no;
 };
+
 
 class MessageHandlerFactory : public MessageIfFactory {
 public:
@@ -44,14 +50,14 @@ private:
 
 
 int main(int argc, char **argv) {
-    shared_ptr<MessageIfFactory> handler_fac(new MessageHandlerFactory());
-    shared_ptr<TProcessorFactory> proc_fac(new MessageProcessorFactory(handler_fac));
+    auto handler_fac = make_shared<MessageHandlerFactory>();
+    auto proc_fac = make_shared<MessageProcessorFactory>(handler_fac);
 
-    shared_ptr<TServerTransport>  svr_trans(new TServerSocket(8585));
-    shared_ptr<TTransportFactory> trans_fac(new TFramedTransportFactory());
-    shared_ptr<TProtocolFactory>  proto_fac(new TJSONProtocolFactory());
+    auto trans_svr = make_shared<TServerSocket>(9090);
+    auto trans_fac = make_shared<TFramedTransportFactory>();
+    auto proto_fac = make_shared<TJSONProtocolFactory>();
 
-    TThreadedServer server(proc_fac, svr_trans, trans_fac, proto_fac);
+    TThreadedServer server(proc_fac, trans_svr, trans_fac, proto_fac);
     server.serve();
 }
 
