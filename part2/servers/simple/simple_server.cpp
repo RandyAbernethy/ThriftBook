@@ -1,15 +1,16 @@
-#include <iostream>
-#include <boost/make_shared.hpp>
-#include <boost/shared_ptr.hpp>
+#include "gen-cpp/Message.h"
 #include <thrift/protocol/TBinaryProtocol.h>
 #include <thrift/transport/TServerSocket.h>
 #include <thrift/transport/TBufferTransports.h>
 #include <thrift/TProcessor.h>
-#include "gen-cpp/Message.h"
+#include <boost/make_shared.hpp>
+#include <boost/shared_ptr.hpp>
+#include <iostream>
 
 using namespace ::apache::thrift::protocol;
 using namespace ::apache::thrift::transport;
 using namespace ::apache::thrift;
+using boost::make_shared;
 
 const char * msgs[] = {"Apache Thrift!!",
                        "Childhood is a short season",
@@ -27,12 +28,12 @@ private:
 };
 
 int main() {
-    MessageProcessor proc(boost::make_shared<MessageHandler>());
-    TServerSocket svr_trans(8585);
-    svr_trans.listen();
+    MessageProcessor proc(make_shared<MessageHandler>());
+    TServerSocket trans_svr(9090);
+    trans_svr.listen();
     while (true) {
-        auto trans = boost::make_shared<TBufferedTransport>(svr_trans.accept());
-        auto proto = boost::make_shared<TBinaryProtocol>(trans);
+        auto trans = make_shared<TBufferedTransport>(trans_svr.accept());
+        auto proto = make_shared<TBinaryProtocol>(trans);
   	try{
 	    while(proc.process(proto, proto, nullptr)) {;}
         } catch (const TTransportException& ex) {
