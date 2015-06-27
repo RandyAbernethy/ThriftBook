@@ -65,9 +65,9 @@ private:
     int call_count;
 };
 
-class TradeHistoryIfInstanceFactory : virtual public TradeHistoryIfFactory {
+class TradeHistoryFactory : virtual public TradeHistoryIfFactory {
 public:
-    TradeHistoryIfInstanceFactory() : con_count(0) {;}
+    TradeHistoryFactory() : con_count(0) {;}
     virtual TradeHistoryIf* getHandler(const TConnectionInfo & ci) override {
         return new TradeHistoryHandler(ci, ++con_count);
     }
@@ -85,7 +85,7 @@ int main() {
     int worker_threads = hw_threads * 1.5 + 1;
 
     //Create I/O factories
-    auto handler_fac = make_shared<TradeHistoryIfInstanceFactory>();
+    auto handler_fac = make_shared<TradeHistoryFactory>();
     auto proc_fac = make_shared<TradeHistoryProcessorFactory>(handler_fac);
     auto proto_fac = make_shared<TCompactProtocolFactoryT<TMemoryBuffer>>();
 
