@@ -24,10 +24,10 @@ public:
 int main() {
     auto handler = make_shared<helloSvcHandler>();
     auto proc = make_shared<helloSvcProcessor>(handler);
-    auto svr_trans = make_shared<TServerSocket>(9090);
+    auto trans_svr = make_shared<TServerSocket>(9090);
     auto trans_fac = make_shared<TBufferedTransportFactory>();
     auto proto_fac = make_shared<TBinaryProtocolFactory>();
-    TSimpleServer server(proc, svr_trans, trans_fac, proto_fac);
+    TSimpleServer server(proc, trans_svr, trans_fac, proto_fac);
     server.serve();
     return 0;
 }
