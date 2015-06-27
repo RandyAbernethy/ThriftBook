@@ -21,15 +21,16 @@ using namespace ::apache::thrift;
 using namespace TradeReporting;
 using boost::shared_ptr;
 using boost::make_shared;
+using boost::dynamic_pointer_cast;
 
 class TradeHistoryHandler : virtual public TradeHistoryIf {
 public:
     TradeHistoryHandler(const TConnectionInfo & ci, int con_count) :
             con_id(con_count), call_count(0) {
-        TSocket * pSoc = dynamic_cast<TSocket *>(ci.transport.get());
+        auto sock = dynamic_pointer_cast<TSocket>(ci.transport);
         std::string soc_info;
-        if (nullptr != pSoc) {
-            soc_info = pSoc->getSocketInfo();
+        if (sock) {
+            soc_info = sock->getSocketInfo();
         }
         std::cout << "[Server] ConCreate : " <<  std::this_thread::get_id()
                   << ':' << con_id << ':' << call_count
