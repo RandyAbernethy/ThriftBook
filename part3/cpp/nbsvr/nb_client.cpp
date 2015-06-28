@@ -7,6 +7,8 @@
 #include <boost/make_shared.hpp>
 #include <boost/shared_ptr.hpp>
 #include <iostream>
+#include <string>
+
 
 using namespace apache::thrift;
 using namespace apache::thrift::transport;
