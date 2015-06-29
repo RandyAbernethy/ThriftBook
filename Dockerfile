@@ -4,7 +4,7 @@
 #       $ sudo docker run -it randyabernethy/thrift_book
 #
 # To build and run the image from within the ThriftBook dir:
-#       $ sudo docker build . -t thrift_book
+#       $ sudo docker build -t thrift_book .
 #       $ sudo docker run -it thrift_book
 
 FROM ubuntu:14.04 
