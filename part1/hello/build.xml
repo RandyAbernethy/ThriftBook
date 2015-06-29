@@ -11,12 +11,12 @@
             <arg line="-gen java"/>
             <arg value="hello.thrift"/>
         </exec>
-        <javac includeantruntime="false" classpath="/usr/local/lib/libthrift-1.0.0.jar:/usr/share/java/slf4j-api.jar:/usr/share/java/slf4j-nop.jar" srcdir="gen-java" destdir="gen-java"/>
+        <javac includeantruntime="false" classpath="/usr/local/lib/libthrift-1.0.0.jar:/usr/local/lib/slf4j-api.jar:/usr/local/lib/slf4j-nop.jar" srcdir="gen-java" destdir="gen-java"/>
         <javac includeantruntime="false" classpath="/usr/local/lib/libthrift-1.0.0.jar:gen-java" srcdir="." destdir="."/>
     </target>
    
     <target name="run">
-        <java classname="HelloClient" classpath="/usr/local/lib/libthrift-1.0.0.jar:/usr/share/java/slf4j-api.jar:/usr/share/java/slf4j-nop.jar:gen-java:."/>
+        <java classname="HelloClient" classpath="/usr/local/lib/libthrift-1.0.0.jar:/usr/local/lib/slf4j-api.jar:/usr/local/lib/slf4j-nop.jar:gen-java:."/>
     </target>
    
     <target name="all" depends="clean,compile"/>

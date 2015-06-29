@@ -15,14 +15,12 @@ A high level introduction to Apache Thrift and its architecture. Examples from t
 Part II - Programming Apache Thrift
 -----------------------------------
 
-This part digs into each layer of the Apache Thrift framework, examining transports, protocols, types, servers and the Apache Thrift interface definition language in detail. Examples from these chapters use C++, Java and Python as the demonstration languages. C++ examples provide make files and Java examples provide Build.xml files for building with make and ant respectively. All build scripts depend on Apache Thrift v1.0 (or the dev trunk). The Ant builds depend on SLF4J v1.7.12, to use other versions you can simply edit the Build.xml. The python examples are directly executable.
+This part digs into each layer of the Apache Thrift framework, examining transports, protocols, types, servers and the Apache Thrift interface definition language in detail. Examples from these chapters use C++, Java and Python as the demonstration languages. C++ examples provide makefiles and Java examples provide Build.xml files for building with make/ant respectively. All build scripts depend on Apache Thrift v1.0 (or the dev trunk). The Ant builds depend on SLF4J. The python examples are directly executable.
 
 Part III - Polygot Application Development
 ------------------------------------------
 
-This part of the book provides jump starts for the most popular platforms and languages used with Apache Thrift. The Web, Mobile, and backend systems are examined through the lens of C++, Java, C#, JavaScript, Python, PHP, Perl, Ruby and Swift. The general idea is to add jump starts for every Apache Thrift language over time, though only the above mentioned languages will be in the first edition of the book. In addition to the above mentioned languages the Haxe jumpstart is complete and available as an online addition with examples in this repo.
-
-There is a lager enterprise style application originally designed as a vehicle for this part of the book but it was not included in the final text due to length restrictions. I will post the code here in the future if there is interest.
+This part of the book provides jump starts for the most popular platforms and languages used with Apache Thrift. The Web, and backend systems are examined through the lens of C++, Java, C#, JavaScript, Python, PHP, Perl and Ruby. The general idea is to add jump starts for every Apache Thrift language over time, though only the above mentioned languages will be in the printed book. Additional languages will be provided in online chapters (the Haxe jumpstart is already complete with source available in this repo).
 
 Tools - Miscellaneous Thrift Stuff
 ----------------------------------
@@ -32,7 +30,7 @@ This folder is for various Thrift related stuff. Presently only a GEdit language
 Development Environment
 -----------------------
 
-A Dockerfile in the root of this repo will ultimately define a development environment for the book which will make it easy to build and test all of the examples in the book as well as the extensions provided here. This file is just a stub presently. Apache Thrift is undergoing three important changes on the way to the imminent v1.0. 
+A Dockerfile in the root of this repo will ultimately define a development environment for the book which will make it easy to build and test all of the examples in the book as well as the online extras. This file only supports parts one and two presently. Apache Thrift is undergoing three important changes on the way to v1.0. 
 
  - Support for Python 3.x
  - Support for C++11
