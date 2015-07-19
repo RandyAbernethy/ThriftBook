@@ -6,14 +6,18 @@ import org.apache.thrift.TException;
 
 public class HelloClient {
 
-    public static void main(String[] args) throws TException {
+    public static void main(String[] args) {
         TSocket trans = new TSocket("localhost", 9090);
         TBinaryProtocol proto = new TBinaryProtocol(trans);
         helloSvc.Client client = new helloSvc.Client(proto);
 
-        trans.open();
-        String str = client.getMessage("world");
-        System.out.println("[Client] received: " + str);
+        try {
+            trans.open();
+            String str = client.getMessage("world");
+            System.out.println("[Client] received: " + str);
+        } catch (TException ex) {
+            System.out.println("Error: " + ex.toString());
+        }
         trans.close();
     }
 }
