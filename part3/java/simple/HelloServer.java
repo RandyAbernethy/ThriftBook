@@ -1,5 +1,4 @@
 import org.apache.thrift.TProcessor;
-import org.apache.thrift.server.TServer;
 import org.apache.thrift.server.TSimpleServer;
 import org.apache.thrift.transport.TServerSocket;
 import org.apache.thrift.transport.TTransportException;
@@ -19,7 +18,7 @@ public class HelloServer {
     public static void main(String[] args) throws TTransportException {
         TServerSocket trans_svr = new TServerSocket(9090);
         TProcessor proc = new helloSvc.Processor<>(new MessageHandler());
-        TServer server = 
+        TSimpleServer server = 
             new TSimpleServer(
                 new TSimpleServer.Args(trans_svr)
                     .processor(proc)
