@@ -2,14 +2,12 @@ import java.io.IOException;
 import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.TimeoutException;
-
 import org.apache.thrift.protocol.TBinaryProtocol;
 import org.apache.thrift.transport.TNonblockingSocket;
 import org.apache.thrift.TException;
 import org.apache.thrift.async.TAsyncMethodCall;
 import org.apache.thrift.async.TAsyncClientManager;
 import org.apache.thrift.async.AsyncMethodCallback;
-
 import TradeReporting.TradeHistory.AsyncClient.get_last_sale_call;
 
 public class AsyncClient {
@@ -46,8 +44,8 @@ public class AsyncClient {
     public static void main(String[] args) 
             throws IOException, InterruptedException, TException {
         //Async client and I/O stack setup
-        TAsyncClientManager client_man = new TAsyncClientManager();
         TNonblockingSocket trans_ep = new TNonblockingSocket("localhost", 9090);
+        TAsyncClientManager client_man = new TAsyncClientManager();
         TradeReporting.TradeHistory.AsyncClient client = 
             new TradeReporting.TradeHistory.AsyncClient(new TBinaryProtocol.Factory(),
                                                         client_man, trans_ep);
@@ -75,6 +73,9 @@ public class AsyncClient {
         client.get_last_sale("IBM", wc);
         System.out.println("[Client] get_last_sale() executing asynch...");
         wc.wait(500);
+        wc.reset();
+        client.get_last_sale("F", wc);
+        wc.wait(25000);
 
         //Make an async call which will time out
         client.setTimeout(1000);
