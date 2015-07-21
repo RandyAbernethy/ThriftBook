@@ -14,6 +14,40 @@ import TradeReporting.TradeHistory.AsyncClient.get_last_sale_call;
 
 public class AsyncClient {
 
+    private static abstract class WaitableCallback<T extends TAsyncMethodCall> 
+            implements AsyncMethodCallback<T> {
+        private CountDownLatch latch = new CountDownLatch(1);
+
+        public void reset() {
+            latch = new CountDownLatch(1);
+        }
+
+        public void complete() {
+            latch.countDown();
+        }
+
+        public boolean await(int i) {
+            boolean b = false;
+            try {
+                b = latch.await(1000, TimeUnit.MILLISECONDS);
+            } catch(Exception e) {
+                System.out.println("Await error");
+            }
+            return b;
+        }
+
+        @Override
+        public void onError(Exception ex) {
+            if (ex instanceof TimeoutException) {
+                System.out.println("[Client] Async call timed out");
+            } else {
+                System.out.println("[Client] Async call error");
+            }
+            complete();
+        }
+    }
+
+
     public static void main(String[] args) 
             throws IOException, InterruptedException, TException {
         TAsyncClientManager client_man = new TAsyncClientManager();
@@ -22,58 +56,31 @@ public class AsyncClient {
                 new TradeReporting.TradeHistory.AsyncClient(new TBinaryProtocol.Factory(), 
                                                             client_man, trans_ep);
 
-        final CountDownLatch latch = new CountDownLatch(1);
-        client.get_last_sale("IBM", new AsyncMethodCallback<TradeReporting.TradeHistory.AsyncClient.get_last_sale_call>() {
+        WaitableCallback<get_last_sale_call> wc = new WaitableCallback<get_last_sale_call>() {
             @Override
-            public void onError(Exception ex) {
-                if (ex instanceof TimeoutException) {
-                    System.out.println("Async call timed out");
-                } else {
-                    System.out.println("Async call error");
-                }
-                latch.countDown();
-            }
-
-            @Override
-            public void onComplete(TradeReporting.TradeHistory.AsyncClient.get_last_sale_call cob) {
+            public void onComplete(get_last_sale_call cob) {
                 try {
                     TradeReporting.TradeReport tr = cob.getResult();
-                    System.out.println("[Client] received [" + tr.seq_num + "] " + tr.symbol + " : " + tr.size + " @ " + tr.price);
+                    System.out.println("[Client] received [" + tr.seq_num + "] " + 
+                                       tr.symbol + " : " + tr.size + " @ " + tr.price);
                 } catch (TException e) {
                     ;
                 } finally {
-                    latch.countDown();
+                    complete();
                 }
             }
-        });
-        boolean res = latch.await(2, TimeUnit.SECONDS);
+        };
+
+        wc.reset();
+        client.get_last_sale("IBM", wc);
+        wc.await(1000);
 
         client.setTimeout(1000);
-        final CountDownLatch latch2 = new CountDownLatch(1);
-        client.get_last_sale("GE", new AsyncMethodCallback<TradeReporting.TradeHistory.AsyncClient.get_last_sale_call>() {
-            @Override
-            public void onError(Exception ex) {
-                if (ex instanceof TimeoutException) {
-                    System.out.println("Async call timed out");
-                } else {
-                    System.out.println("Async call error");
-                }
-                latch2.countDown();
-            }
 
-            @Override
-            public void onComplete(TradeReporting.TradeHistory.AsyncClient.get_last_sale_call cob) {
-                try {
-                    TradeReporting.TradeReport tr = cob.getResult();
-                    System.out.println("[Client] received [" + tr.seq_num + "] " + tr.symbol + " : " + tr.size + " @ " + tr.price);
-                } catch (TException e) {
-                    ;
-                } finally {
-                    latch2.countDown();
-                }
-            }
-        });
-        boolean calledBack = latch2.await(2, TimeUnit.SECONDS);
+        wc.reset();
+        client.get_last_sale("GE", wc);
+        wc.await(1000);
+
         client_man.stop();
         trans_ep.close();
     }
