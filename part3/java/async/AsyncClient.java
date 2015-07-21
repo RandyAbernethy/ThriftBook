@@ -14,28 +14,23 @@ import TradeReporting.TradeHistory.AsyncClient.get_last_sale_call;
 
 public class AsyncClient {
 
+    //Class template supporting async wait and timeout
     private static abstract class WaitableCallback<T extends TAsyncMethodCall> 
             implements AsyncMethodCallback<T> {
+
         private CountDownLatch latch = new CountDownLatch(1);
 
-        public void reset() {
-            latch = new CountDownLatch(1);
-        }
-
-        public void complete() {
-            latch.countDown();
-        }
-
-        public boolean await(int i) {
+        //Synchronization Interface
+        public void reset() { latch = new CountDownLatch(1); }
+        public void complete() { latch.countDown(); }
+        public boolean wait(int i) {
             boolean b = false;
-            try {
-                b = latch.await(1000, TimeUnit.MILLISECONDS);
-            } catch(Exception e) {
-                System.out.println("Await error");
-            }
+            try { b = latch.await(i, TimeUnit.MILLISECONDS); }
+            catch(Exception e) { System.out.println("[Client] await error"); }
             return b;
         }
 
+        //AsyncMethodCallback<T> interface
         @Override
         public void onError(Exception ex) {
             if (ex instanceof TimeoutException) {
@@ -47,16 +42,20 @@ public class AsyncClient {
         }
     }
 
-
+    //Application entry point
     public static void main(String[] args) 
             throws IOException, InterruptedException, TException {
+        //Async client and I/O stack setup
         TAsyncClientManager client_man = new TAsyncClientManager();
         TNonblockingSocket trans_ep = new TNonblockingSocket("localhost", 9090);
         TradeReporting.TradeHistory.AsyncClient client = 
-                new TradeReporting.TradeHistory.AsyncClient(new TBinaryProtocol.Factory(), 
-                                                            client_man, trans_ep);
+            new TradeReporting.TradeHistory.AsyncClient(new TBinaryProtocol.Factory(),
+                                                        client_man, trans_ep);
 
-        WaitableCallback<get_last_sale_call> wc = new WaitableCallback<get_last_sale_call>() {
+        //get_last_sale() async callback handler
+        WaitableCallback<get_last_sale_call> wc = 
+                new WaitableCallback<get_last_sale_call>() {
+
             @Override
             public void onComplete(get_last_sale_call cob) {
                 try {
@@ -71,16 +70,19 @@ public class AsyncClient {
             }
         };
 
+        //Make an async call
         wc.reset();
         client.get_last_sale("IBM", wc);
-        wc.await(1000);
+        System.out.println("[Client] get_last_sale() executing asynch...");
+        wc.wait(500);
 
+        //Make an async call which will time out
         client.setTimeout(1000);
-
         wc.reset();
         client.get_last_sale("GE", wc);
-        wc.await(1000);
+        wc.wait(5000);
 
+        //Shutdown async client manager and close network socket
         client_man.stop();
         trans_ep.close();
     }
