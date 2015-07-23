@@ -5,7 +5,7 @@ import java.util.concurrent.LinkedBlockingQueue;
 import org.apache.thrift.TProcessor;
 import org.apache.thrift.protocol.TBinaryProtocol;
 import org.apache.thrift.server.TServer;
-import org.apache.thrift.server.TThreadedSelectorServer;
+import org.apache.thrift.server.THsHaServer;
 import org.apache.thrift.transport.TNonblockingServerSocket;
 import org.apache.thrift.transport.TTransportException;
 import org.apache.thrift.async.AsyncMethodCallback;
@@ -93,11 +93,10 @@ public class AsyncServer {
             new AsyncTradeHistoryHandler(floor.getQ()));
         TNonblockingServerSocket trans_svr = new TNonblockingServerSocket(9090);
         TServer server = 
-            new TThreadedSelectorServer(new TThreadedSelectorServer.Args(trans_svr)
+            new THsHaServer(new THsHaServer.Args(trans_svr)
                 .processor(proc)
                 .protocolFactory(new TBinaryProtocol.Factory())
-                .workerThreads(6)
-                .selectorThreads(3));
+                .workerThreads(4));
         System.out.println("[Server] listening of port 9090");
         server.serve();
     }
