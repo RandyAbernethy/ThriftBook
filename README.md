@@ -30,10 +30,10 @@ This folder is for various Thrift related stuff. Presently only a GEdit language
 Development Environment
 -----------------------
 
-A Dockerfile in the root of this repo will ultimately define a development environment for the book which will make it easy to build and test all of the examples in the book as well as the online extras. This file only supports parts one and two presently. Apache Thrift is undergoing three important changes on the way to v1.0. 
+The Dockerfile in the root of this repo defines a development environment for the book which will make it easy to build and test all of the examples in the book. This file only supports parts one and two presently. Apache Thrift is undergoing three important changes on the way to v1.0. 
 
  - Support for Python 3.x
  - Support for C++11
  - Building the platform (compiler and all libs) with cmake
 
-As things stabilize I will finalize this Dockerfile.
+As things migrate I will update this Dockerfile.
