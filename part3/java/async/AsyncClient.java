@@ -68,7 +68,7 @@ public class AsyncClient {
             }
         };
 
-        //Make an async call
+        //Make async calls
         wc.reset();
         client.get_last_sale("IBM", wc);
         System.out.println("[Client] get_last_sale() executing asynch...");
