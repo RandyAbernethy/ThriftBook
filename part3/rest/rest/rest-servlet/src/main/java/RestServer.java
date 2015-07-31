@@ -3,21 +3,9 @@ import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
 import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.MediaType;
-import org.glassfish.jersey.grizzly2.httpserver.GrizzlyHttpServerFactory;
-import org.glassfish.jersey.server.ResourceConfig;
-import org.glassfish.grizzly.http.server.HttpServer;
-import java.io.IOException;
-import java.net.URI;
 
 @Path("tradehistory")
 public class RestServer {
-    public static final String BASE_URI = "http://localhost:8080/rest-server/";
-
-    public static void main(String[] args) throws IOException {
-        GrizzlyHttpServerFactory.createHttpServer(URI.create(BASE_URI), 
-                    new ResourceConfig().registerClasses(RestServer.class));
-    }
-
     public static class TradeReport {
         public String  symbol;
         public double  price;

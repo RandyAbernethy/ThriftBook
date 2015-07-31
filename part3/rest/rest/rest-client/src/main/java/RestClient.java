@@ -5,8 +5,6 @@ import javax.ws.rs.core.MediaType;
 import java.io.IOException;
 
 public class RestClient {
-    public static final String BASE_URI = "http://localhost:8080/rest/";
-
     public static class TradeReport {
         public String  symbol;
         public double  price;
@@ -24,7 +22,7 @@ public class RestClient {
 
     public static void main(String[] args) throws IOException {
         Client c = ClientBuilder.newClient();
-        WebTarget target = c.target(BASE_URI);
+        WebTarget target = c.target("http://localhost:8080/rest-server/");
 
         for (int i = 0; i < 1000000; i++) {
             final TradeReport tr = 
