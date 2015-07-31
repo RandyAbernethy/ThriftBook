@@ -3,11 +3,11 @@
 
     <modelVersion>4.0.0</modelVersion>
 
-    <name>Rest Server</name>
+    <name>Rest Client</name>
     <packaging>jar</packaging>
 
     <groupId>thrift-book</groupId>
-    <artifactId>rest-server</artifactId>
+    <artifactId>rest-client</artifactId>
     <version>1.0-SNAPSHOT</version>
 
     <properties>
@@ -28,10 +28,10 @@
 
     <dependencies>
         <dependency>
-            <groupId>org.glassfish.jersey.containers</groupId>
-            <artifactId>jersey-container-grizzly2-http</artifactId>
+            <groupId>org.glassfish.jersey.core</groupId>
+            <artifactId>jersey-client</artifactId>
         </dependency>
-         <dependency>
+        <dependency>
             <groupId>org.glassfish.jersey.media</groupId>
             <artifactId>jersey-media-moxy</artifactId>
         </dependency>
@@ -66,7 +66,7 @@
                     </execution>
                 </executions>
                 <configuration>
-                    <mainClass>RestServer</mainClass>
+                    <mainClass>RestClient</mainClass>
                 </configuration>
             </plugin>
         </plugins>
