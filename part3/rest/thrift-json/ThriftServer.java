@@ -1,6 +1,7 @@
 import java.io.IOException;
 import org.apache.thrift.transport.TServerSocket;
 import org.apache.thrift.transport.TTransportException;
+import org.apache.thrift.protocol.TJSONProtocol;
 import org.apache.thrift.server.TSimpleServer;
 
 public class ThriftServer {
@@ -18,7 +19,9 @@ public class ThriftServer {
         TServerSocket trans_svr = 
             new TServerSocket(9090);
         TSimpleServer server = 
-            new TSimpleServer(new TSimpleServer.Args(trans_svr).processor(proc));
+            new TSimpleServer(new TSimpleServer.Args(trans_svr)
+                    .protocolFactory(new TJSONProtocol.Factory())
+                    .processor(proc));
         System.out.println("[Server] listening of port 9090");
         server.serve();
     }
