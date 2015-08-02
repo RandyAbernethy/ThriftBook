@@ -1,7 +1,7 @@
 import java.io.IOException;
 import org.apache.thrift.transport.TServerSocket;
 import org.apache.thrift.transport.TTransportException;
-import org.apache.thrift.server.TSimpleServer;
+import org.apache.thrift.server.TThreadPoolServer;
 
 public class ThriftServer {
     public static class TradeHistoryHandler implements TradeHistory.Iface {
@@ -17,8 +17,8 @@ public class ThriftServer {
             new TradeHistory.Processor(new TradeHistoryHandler());
         TServerSocket trans_svr = 
             new TServerSocket(9090);
-        TSimpleServer server = 
-            new TSimpleServer(new TSimpleServer.Args(trans_svr).processor(proc));
+        TThreadPoolServer server = 
+            new TThreadPoolServer(new TThreadPoolServer.Args(trans_svr).processor(proc));
         System.out.println("[Server] listening of port 9090");
         server.serve();
     }
