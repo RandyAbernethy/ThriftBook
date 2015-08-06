@@ -43,7 +43,7 @@ public class DiskSerZ {
       System.out.println("System         : " + ro.system.name());
       System.out.println("Time           : " + ro.time);
       if (ro.pos.isSetIcrfpos()) {
-        DumpICRFPosition(ro.pos.getIcrfpos());
+          DumpICRFPosition(ro.pos.getIcrfpos());
       }
       System.out.println("Frequency   Magnitude");
       for (Map.Entry<Long, Double> entry : ro.freq_amp.entrySet()) {
