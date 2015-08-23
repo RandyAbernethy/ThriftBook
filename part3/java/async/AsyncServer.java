@@ -96,7 +96,8 @@ public class AsyncServer {
             new THsHaServer(new THsHaServer.Args(trans_svr)
                 .processor(proc)
                 .protocolFactory(new TBinaryProtocol.Factory())
-                .workerThreads(4));
+                .minWorkerThreads(4)
+                .maxWorkerThreads(4));
         System.out.println("[Server] listening of port 9090");
         server.serve();
     }
