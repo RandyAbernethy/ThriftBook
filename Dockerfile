@@ -52,4 +52,4 @@ RUN git clone http://github.com/apache/thrift &&\
 RUN git clone http://github.com/RandyAbernethy/ThriftBook
 ENV PYTHONPATH=/usr/lib/python2.7/site-packages
 WORKDIR /ThriftBook
-CMD "/bin/bash"
+CMD ["/bin/bash"]
