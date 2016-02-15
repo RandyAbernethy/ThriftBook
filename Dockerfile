@@ -36,7 +36,9 @@ RUN apt-get update && \
         python-setuptools \
         python-support \
         python-twisted \
-        python-zope.interface && \
+        python-zope.interface \
+        python-pip \
+        python3-pip && \
     apt-get clean && \
     rm -rf /var/cache/apt/* && \
     rm -rf /var/lib/apt/lists/*
