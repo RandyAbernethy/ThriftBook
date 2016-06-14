@@ -30,10 +30,9 @@ This folder is for various Thrift related stuff. Presently only a GEdit language
 Development Environment
 -----------------------
 
-The Dockerfile in the root of this repo defines a development environment for the book which will make it easy to build and test all of the examples in the book. This file only supports C++, Java and Python presently. Apache Thrift is undergoing three important changes on the way to v1.0. 
+The Dockerfile in the root of this repo defines a development environment for the book which will make it easy to build and test all of the examples in the book. This file only supports C++, Java and Python presently. Apache Thrift is undergoing two important changes on the way to v1.0. 
 
- - Support for Python 3.x
  - Support for C++11
  - Building the platform (compiler and all libs) with cmake
 
-As things migrate I will update this Dockerfile.
+As things migrate I will update this Dockerfile. You can "$ docker run -it randyabernethy/thrift-book" to run the prebuilt image on Docker Hub (https://hub.docker.com/r/randyabernethy/thrift-book/).
