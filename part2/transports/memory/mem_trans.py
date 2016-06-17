@@ -9,15 +9,15 @@ class Trade:
         price=0.0
         size=0
 
-transport = TTransport.TMemoryBuffer()
+trans = TTransport.TMemoryBuffer()
 trade = Trade()
 trade.symbol = "F"
 trade.price = 13.10
 trade.size = 2500
-transport.write(pickle.dumps(trade))
+trans.write(pickle.dumps(trade))
 
-transport.cstringio_buf.seek(0)
-bstr = transport.read(4096)
+trans.cstringio_buf.seek(0)
+bstr = trans.read(4096)
 trade_read = pickle.loads(bstr)
 print("Trade(%d): %s %d @ %f" % (len(bstr), trade_read.symbol, trade_read.size, trade_read.price))
 
