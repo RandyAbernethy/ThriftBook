@@ -5,7 +5,7 @@ struct Date {
 }
 
 service HalibutTracking {
-    i32 GetCatchInPoundsToday()
-    i32 GetCatchInPoundsByDate(1: Date dt, 2: double tm)
+    i32 get_catch_in_pounds_today()
+    i32 get_catch_in_pounds_by_date(1: Date dt, 2: double tm)
 }
 

@@ -9,10 +9,14 @@ enum PerfRightsOrg {
 
 typedef double Minutes	
 
+/** Music tracks
+
+*/
 struct MusicTrack {		
     1: string title
+    /** comment 2 */
     2: string artist
-    3: string publisher
+    3: string publisher   /* coment 1 */
     4: string composer
     5: Minutes duration
     6: PerfRightsOrg pro

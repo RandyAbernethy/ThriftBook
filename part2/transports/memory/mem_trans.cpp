@@ -10,15 +10,15 @@ struct Trade {
 };
 
 int main() {
-    apache::thrift::transport::TMemoryBuffer transport(4096);
+    apache::thrift::transport::TMemoryBuffer trans(4096);
 
-    Trade trade{"F", 13.10, 2500};
-    transport.write(reinterpret_cast<const uint8_t *>(&trade), sizeof(trade));
+    Trade t{"F", 13.10, 2500};
+    trans.write(reinterpret_cast<const uint8_t *>(&t), sizeof(t));
 
-    Trade trade_read;
-    int bytes_read = transport.read(reinterpret_cast<uint8_t *>(&trade_read), sizeof(trade_read));
+    Trade tin;
+    int n = trans.read(reinterpret_cast<uint8_t *>(&tin), sizeof(tin));
 
-    std::cout << "Trade(" << bytes_read << "): " << trade_read.symbol << " " 
- 			  << trade_read.size << " @ " << trade_read.price << std::endl;
+    std::cout << "Trade(" << n << "): " << tin.symbol << " "
+              << tin.size << " @ " << tin.price << std::endl;
 }
 

@@ -3,11 +3,11 @@
 import sys
 sys.path.append("gen-py")
 
+from hello import HelloSvc
 from thrift.transport import TSocket
 from thrift.transport import TTransport
 from thrift.protocol import TBinaryProtocol
 from thrift.server import TServer
-from hello import HelloSvc
 
 class HelloHandler:
     def hello_func(self):
