@@ -27,17 +27,15 @@ int main()
     int i = 0;
     i += proto->writeStructBegin("Trade");
 
-    i += proto->writeFieldBegin("symbol ",
-                               ::apache::thrift::protocol::T_STRING, 1);
+    i += proto->writeFieldBegin("symbol ", T_STRING, 1);
     i += proto->writeString(std::string(trade.symbol));
     i += proto->writeFieldEnd();
 
-    i += proto->writeFieldBegin("price ",
-                               ::apache::thrift::protocol::T_DOUBLE, 2);
+    i += proto->writeFieldBegin("price ", T_DOUBLE, 2);
     i += proto->writeDouble(trade.price);
     i += proto->writeFieldEnd();
 
-    i += proto->writeFieldBegin("size ", ::apache::thrift::protocol::T_I32, 3);
+    i += proto->writeFieldBegin("size ", T_I32, 3);
     i += proto->writeI32(trade.size);
     i += proto->writeFieldEnd();
 
