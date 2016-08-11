@@ -1,15 +1,15 @@
 // Apache Thrift Protocol Comparison in C++ 
 
-#include <iostream>
-#include <string>
-#include <chrono>
-#include <memory>
-#include <boost/shared_ptr.hpp>
 #include <thrift/transport/TSimpleFileTransport.h>
 #include <thrift/transport/TBufferTransports.h>
 #include <thrift/protocol/TCompactProtocol.h>
 #include <thrift/protocol/TBinaryProtocol.h>
 #include <thrift/protocol/TJSONProtocol.h>
+#include <boost/shared_ptr.hpp>
+#include <iostream>
+#include <string>
+#include <chrono>
+#include <memory>
 
 using namespace apache::thrift::transport;
 using namespace apache::thrift::protocol;
@@ -49,14 +49,15 @@ public:
 //     proto_write_times f j
 // to run the test with a file transport and JSON protocol
 int main(int argc, char *argv[]) {
-    if (argc != 3) {					
-        std::cout << "usage: " << argv[0] 
-                  << " (m[emory]|f[file]) (b[inary]|c[ompact]|j[son])" 
-         << std::endl;
+    std::string usage("usage: " + std::string(argv[0]) + 
+        " (m[emory]|f[file]) (b[inary]|c[ompact]|j[son]) [b[uffering]]");
+
+    if (! (argc == 3 || argc == 4)) {					
+        std::cout << usage << std::endl;
         return -1;
     }
 
-	//Set the Transport
+    //Set the Transport
     boost::shared_ptr<TTransport> trans;			
     if (argv[1][0] == 'm' || argv[1][0] == 'M') {
         const int mem_size = 1024*1024*64;
@@ -70,13 +71,21 @@ int main(int argc, char *argv[]) {
         std::cout << "Writing to: " << path_name << std::endl;
     }
     else {
-        std::cout << "usage: " << argv[0] 
-                  << " (m[emory]|f[file]) (b[inary]|c[ompact]|j[son])" 
-                  << std::endl;
+        std::cout << usage << std::endl;
         return -1;
     }
 
-	//Set the Protocol
+    //Set optional transport buffer
+    if (argc == 4 && (argv[3][0] == 'b' || argv[3][0] == 'B')) {
+        std::cout << "TBufferedTransport/";
+        trans.reset(new TBufferedTransport(trans));
+    }
+    else if (argc == 4) {
+        std::cout << usage << std::endl;
+        return -1;
+    }
+
+    //Set the Protocol
     std::unique_ptr<TProtocol> proto;			
     if (argv[2][0] == 'b' || argv[2][0] == 'B')
         proto.reset(new TBinaryProtocol(trans));
@@ -85,25 +94,23 @@ int main(int argc, char *argv[]) {
     else if (argv[2][0] == 'j' || argv[2][0] == 'J')
         proto.reset(new TJSONProtocol(trans));
     else {
-        std::cout << "usage: " << argv[0] << 
- 			" (m[emory]|f[file]) (b[inary]|c[ompact]|j[son])" 
-                  << std::endl;
+        std::cout << usage << std::endl;
         return -1;
     }
 
-	//Report clock information
+    //Report clock information
     Clock<std::chrono::steady_clock> clock;
     std::cout << "Clock precision in seconds: " << clock.precision() 	
  		  << " (steady: " << clock.isSteady() << ")" << std::endl;
 
-	//Init the object (different values can have an affect on 
-	//JSON ad Compact protocol performance !)
+    //Init the object (different values can have an affect on 
+    //JSON ad Compact protocol performance !)
     Trade trade;
     trade.symbol[0] = 'F'; trade.symbol[1] = '\0';
     trade.price = 13.10;
     trade.size = 2500;
 
-	//Serialize the object and write to the transport 1mm times
+    //Serialize the object and write to the transport 1mm times
     auto start = clock.now();
     int i = 0;
     for (int loop_count = 0; loop_count < 1000000; ++loop_count) { 
@@ -130,7 +137,7 @@ int main(int argc, char *argv[]) {
         i += proto->writeStructEnd();
     }
 
-	//Report the results
+    //Report the results
     std::cout << "elapsed: " << clock.elapsed(start, clock.now()) 
               << std::endl;
     std::cout << "Wrote " << i << " bytes" << std::endl;

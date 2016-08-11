@@ -1,4 +1,4 @@
-// Apache Thrift Binary Protocol Struct Writer in C++ 
+// Apache Thrift Binary Protocol Struct Writer in C++
 
 #include <thrift/transport/TSimpleFileTransport.h>
 #include <thrift/protocol/TProtocol.h>
