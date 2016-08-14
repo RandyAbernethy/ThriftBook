@@ -15,8 +15,8 @@ using boost::make_shared;
 using boost::shared_ptr;
 
 void DumpRadioObservation(const RadioObservation & ro) {
-    auto it = _RadioObservationSystem_VALUES_TO_NAMES.find(ro.system);
-    auto psystem = (std::end(_RadioObservationSystem_VALUES_TO_NAMES) == it) ? "" : it->second;
+    auto it0 = _RadioObservationSystem_VALUES_TO_NAMES.find(ro.system);
+    auto psystem = (std::end(_RadioObservationSystem_VALUES_TO_NAMES) == it0) ? "" : it0->second;
     std::cout << "\nRadio Observation"
               << "\n-------------------------"
               << "\nTelescope Count: " << ro.telescope_count 
@@ -54,18 +54,18 @@ int main(int argc, char *argv[]) {
 
         std::string out_file(argv[1]); out_file += ".z";
         std::cout << "\nWritting to compressed file: " << out_file << std::endl;
-        trans.reset(new TSimpleFileTransport(out_file, true, true));
-        trans.reset(new TZlibTransport(trans, 1024, 1024, 1024, 1024, 9));
-        proto.reset(new TBinaryProtocol(trans));
+        trans = make_shared<TSimpleFileTransport>(out_file, true, true);
+        trans = make_shared<TZlibTransport>(trans, 1024, 1024, 1024, 1024, 9);
+        proto = make_shared<TBinaryProtocol>(trans);
         trans->open();
         ro.write(proto.get());
         trans->flush();
         trans->close();
 
         std::cout << "\nVerifying compressed file: " << out_file << std::endl;
-        trans.reset(new TSimpleFileTransport(out_file, true, true));
-        trans.reset(new TZlibTransport(trans));
-        proto.reset(new TBinaryProtocol(trans));
+        trans = make_shared<TSimpleFileTransport>(out_file, true, true);
+        trans = make_shared<TZlibTransport>(trans);
+        proto = make_shared<TBinaryProtocol>(trans);
         trans->open();
         RadioObservation ro_check;
         ro_check.read(proto.get());
