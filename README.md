@@ -36,3 +36,6 @@ The Dockerfile in the root of this repo defines a development environment for th
  - Building the platform (compiler and all libs) with cmake
 
 As things migrate I will update this Dockerfile. You can "$ docker run -it randyabernethy/thrift-book" to run the prebuilt image on Docker Hub (https://hub.docker.com/r/randyabernethy/thrift-book/).
+
+[![](https://images.microbadger.com/badges/image/randyabernethy/thrift-book.svg)](https://microbadger.com/images/randyabernethy/thrift-book "Thrift Book Layers")
+
