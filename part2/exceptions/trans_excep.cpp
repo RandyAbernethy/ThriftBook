@@ -24,10 +24,7 @@ int main(int argc, char ** argv)
         trans.reset(new TSimpleFileTransport("data", false, false));
       else
         trans.reset(new TSimpleFileTransport("data", false, true));
-      Trade trade;
-      trade.symbol[0] = 'F'; trade.symbol[1] = '\0';
-      trade.price = 13.10;
-      trade.size = 2500;
+      Trade trade{"F", 13.10, 2500};
       trans->write((const uint8_t *)&trade, sizeof(trade));
       trans->close();
 
