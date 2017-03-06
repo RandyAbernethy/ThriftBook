@@ -46,6 +46,7 @@ RUN apt-get update && \
 #Install Apache Thrift
 RUN git clone http://github.com/apache/thrift &&\
     cd thrift &&\
+    git checkout 0.10.0 && \
     ./bootstrap.sh && \
     ./configure && \
     make install && \
