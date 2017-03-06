@@ -8,12 +8,12 @@ import org.apache.thrift.TException;
 import org.apache.thrift.async.TAsyncMethodCall;
 import org.apache.thrift.async.TAsyncClientManager;
 import org.apache.thrift.async.AsyncMethodCallback;
-import TradeReporting.TradeHistory.AsyncClient.get_last_sale_call;
+import TradeReporting.TradeReport;
 
 public class AsyncClient {
 
     //Class template supporting async wait and timeout
-    private static abstract class WaitableCallback<T extends TAsyncMethodCall> 
+    private static abstract class WaitableCallback<T> 
             implements AsyncMethodCallback<T> {
 
         private CountDownLatch latch = new CountDownLatch(1);
@@ -51,17 +51,14 @@ public class AsyncClient {
                                                         client_man, trans_ep);
 
         //get_last_sale() async callback handler
-        WaitableCallback<get_last_sale_call> wc = 
-                new WaitableCallback<get_last_sale_call>() {
+        WaitableCallback<TradeReport> wc = 
+                new WaitableCallback<TradeReport>() {
 
             @Override
-            public void onComplete(get_last_sale_call cob) {
+            public void onComplete(TradeReport tr) {
                 try {
-                    TradeReporting.TradeReport tr = cob.getResult();
                     System.out.println("[Client] received [" + tr.seq_num + "] " + 
                                        tr.symbol + " : " + tr.size + " @ " + tr.price);
-                } catch (TException e) {
-                    ;
                 } finally {
                     complete();
                 }
@@ -88,4 +85,3 @@ public class AsyncClient {
         trans_ep.close();
     }
 }
-
