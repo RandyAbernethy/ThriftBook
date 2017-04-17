@@ -22,7 +22,7 @@ var helloSvcOpt = {
 
 //ServerOptions: Define server features
 var serverOpt = {                          	
-    staticFilePath: ".",                        
+    files: ".",                        
     services: {                         
         "/hello": helloSvcOpt                 
     }                               

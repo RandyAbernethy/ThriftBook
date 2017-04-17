@@ -11,21 +11,21 @@
     <input type="button" id="get_msg" value="Get Message" >
     <div id="output"></div>
 
-    <script src="bower_components/apache-thrift/thriftws.js"></script>
-    <script src="gen-js/hello_svc.js"></script>
+    <script src="bower_components/thrift/lib/js/src/thrift.js"></script>
+    <script src="gen-js/helloSvc.js"></script>
     <script>
       (function() {
         <!-- Setup Apache Thrift Client -->
         var transport = new Thrift.Transport("/hello");
         var protocol  = new Thrift.Protocol(transport);
-        var client    = new hello_svcClient(protocol);
+        var client    = new helloSvcClient(protocol);
 
         <!-- Wire Apache Thrift RPC to DOM Click Event -->
         var nameElement = document.getElementById("name_in");
         var outputElement = document.getElementById("output");
         document.getElementById("get_msg")
           .addEventListener("click", function(){
-            outputElement.innerHTML = client.get_message(nameElement.value);
+            outputElement.innerHTML = client.getMessage(nameElement.value);
           });
       })();
     </script>
