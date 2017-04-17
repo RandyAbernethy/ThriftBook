@@ -29,8 +29,7 @@ var serverOpt = {
 }                                   
 
 //Create and start the web server 
-var server = thrift.createWebServer(serverOpt);    
 var port = 9090;                            		
-server.listen(port);                        		
+thrift.createWebServer(serverOpt).listen(port);                        		
 console.log("Http/Thrift Server running on port: " + port);
 
