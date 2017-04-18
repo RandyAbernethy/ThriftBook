@@ -12,7 +12,7 @@
     <div id="output"></div>
 
     <script src="bower_components/apache-thrift/thrift.js"></script>
-    <script src="gen-js/hello_svc.js"></script>
+    <script src="gen-js/helloSvc.js"></script>
     <script>
       (function() {
         <!-- Setup Apache Thrift Client -->
@@ -25,7 +25,7 @@
         var outputElement = document.getElementById("output");
         document.getElementById("get_msg")
           .addEventListener("click", function(){
-            client.get_message(nameElement.value, function(result) {
+            client.getMessage(nameElement.value, function(result) {
               outputElement.innerHTML = result;
             });
           });
