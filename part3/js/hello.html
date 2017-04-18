@@ -16,8 +16,8 @@
     <script>
       (function() {
         <!-- Setup Apache Thrift Client -->
-        var transport = new Thrift.Transport("/hello");
-        var protocol  = new Thrift.Protocol(transport);
+        var transport = new Thrift.TXHRTransport("/hello");
+        var protocol  = new Thrift.TJSONProtocol(transport);
         var client    = new helloSvcClient(protocol);
 
         <!-- Wire Apache Thrift RPC to DOM Click Event -->
