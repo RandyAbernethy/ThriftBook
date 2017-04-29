@@ -20,7 +20,7 @@ var helloSvcOpt = {
 
 //ServerOptions: Define server features
 var serverOpt = {                               
-    filePath: ".",                        
+    files: ".",                        
     services: {"/hello": helloSvcOpt},
     cors: {"http://localhost:9098": true},
     headers: {"Content-Security-Policy": 
