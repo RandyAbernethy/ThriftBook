@@ -6,7 +6,7 @@ var helloHandler = {
   getMessage: function(name, result) {
     if (typeof name !== "string" || name.length < 1) {		
       var e = new badMsg();						
-      e.error_code = 13;						
+      e.errorCode = 13;
       e.msg = "No name";						
       result(e, null);						
     } else {
