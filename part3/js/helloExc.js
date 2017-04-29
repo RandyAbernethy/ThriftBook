@@ -23,7 +23,7 @@ var helloErrorOpt = {
 };
 
 var serverOpt = {
-    filePath: ".",
+    files: ".",
     services: { "/hello": helloErrorOpt }
 }
 
