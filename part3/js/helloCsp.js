@@ -7,7 +7,7 @@
    var outputElement = document.getElementById("output");
    document.getElementById("get_msg")
       .addEventListener("click", function(){
-         client.get_message(nameElement.value, function(result) {
+         client.getMessage(nameElement.value, function(result) {
             outputElement.innerHTML = result;
          });
       });
