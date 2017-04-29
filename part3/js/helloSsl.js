@@ -18,7 +18,7 @@ var helloSvcOpt = {
 };
 
 var serverOpt = {
-    filePath: ".",
+    files: ".",
     tls: {						
       key: fs.readFileSync("key.pem"),		
       cert: fs.readFileSync("cert.pem")		
