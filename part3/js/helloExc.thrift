@@ -4,7 +4,7 @@ exception bad_msg {
 }
 
 service helloError {
-	string get_message(1: string name)
+	string getMessage(1: string name)
 	  throws (1: bad_msg bm)
 }
 
