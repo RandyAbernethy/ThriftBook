@@ -3,7 +3,7 @@ exception bad_msg {
     2: string msg
 }
 
-service hello_error {
+service helloError {
 	string get_message(1: string name)
 	  throws (1: bad_msg bm)
 }
