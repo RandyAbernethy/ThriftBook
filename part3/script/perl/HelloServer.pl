@@ -6,7 +6,7 @@ use utf8;
 use strict;
 use warnings;
 
-use Thrift::Socket;
+use Thrift::ServerSocket;
 use Thrift::Server;
 use helloSvc;
 
