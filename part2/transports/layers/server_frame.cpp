@@ -33,7 +33,7 @@ int main()
         trans->write(reinterpret_cast<const uint8_t *>(msg.c_str()), msg.length());
         trans->flush();
         trans->close();
-    } while (0 == stop_cmd.compare(0, std::string::npos, buf, 4));
+    } while (0 != stop_cmd.compare(0, std::string::npos, buf, 4));
 
     std::cout << "[Server] exiting" << std::endl;
     acceptor->close();
