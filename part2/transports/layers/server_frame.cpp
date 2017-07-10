@@ -24,7 +24,7 @@ int main()
     acceptor->listen();
     std::cout << "[Server] listening on port " << port << std::endl;
 
-    while (true) {
+    do {
         auto trans_ep = acceptor->accept();
         auto trans = make_shared<TFramedTransport>(trans_ep);
         auto len = trans->read(reinterpret_cast<uint8_t *>(buf), buf_size);
@@ -33,9 +33,7 @@ int main()
         trans->write(reinterpret_cast<const uint8_t *>(msg.c_str()), msg.length());
         trans->flush();
         trans->close();
-        if (0 == stop_cmd.compare(0, std::string::npos, buf, 4))
-            break;
-    }
+    } while (0 == stop_cmd.compare(0, std::string::npos, buf, 4));
 
     std::cout << "[Server] exiting" << std::endl;
     acceptor->close();
