@@ -7,7 +7,7 @@
 #       $ sudo docker build -t thrift_book .
 #       $ sudo docker run -it thrift_book
 
-FROM ubuntu:14.04 
+FROM ubuntu:16.04 
 MAINTAINER Randy Abernethy "ra@apache.org" 
 
 #Install C++, Java and Python dependencies
