@@ -18,7 +18,7 @@ RUN apt-get update && \
         flex \
         g++ \
         git \
-        libboost1.55-all-dev \
+        libboost1.58-all-dev \
         libevent-dev \
         libssl-dev \
         libtool \
@@ -28,13 +28,12 @@ RUN apt-get update && \
         \
         ant \
         maven \
-        openjdk-7-jdk \
+        openjdk-8-jdk \
         \
         python-all \
         python-all-dbg \
         python-all-dev \
         python-setuptools \
-        python-support \
         python-twisted \
         python-zope.interface \
         python-pip \
