@@ -3,11 +3,11 @@
 #include <thrift/TProcessor.h>
 #include <thrift/transport/TBufferTransports.h>
 #include <thrift/protocol/TCompactProtocol.h>
+#include <thrift/transport/TNonblockingServerSocket.h>
 #include <thrift/server/TNonblockingServer.h>
 #include <thrift/concurrency/ThreadManager.h>
 #include <thrift/concurrency/PlatformThreadFactory.h>
-#include <boost/make_shared.hpp>
-#include <boost/shared_ptr.hpp>
+#include <memory>
 #include <thread>
 #include <iostream>
 #include <string>
@@ -19,9 +19,9 @@ using namespace ::apache::thrift::server;
 using namespace ::apache::thrift::concurrency;
 using namespace ::apache::thrift;
 using namespace TradeReporting;
-using boost::shared_ptr;
-using boost::make_shared;
-using boost::dynamic_pointer_cast;
+using std::shared_ptr;
+using std::make_shared;
+using std::dynamic_pointer_cast;
 
 class TradeHistoryHandler : virtual public TradeHistoryIf {
 public:
@@ -83,10 +83,12 @@ int main() {
     auto hw_threads = std::thread::hardware_concurrency();
     int io_threads = hw_threads / 2 + 1;
     int worker_threads = hw_threads * 1.5 + 1;
+    auto trans = make_shared<TNonblockingServerSocket>(port);
+
 
     //Create I/O factories
     auto handler_fac = make_shared<TradeHistoryFactory>();
-    auto proc_fac = make_shared<TradeHistoryProcessorFactory>(handler_fac);
+    shared_ptr<TProcessorFactory> proc_fac = make_shared<TradeHistoryProcessorFactory>(handler_fac);
     auto proto_fac = make_shared<TCompactProtocolFactoryT<TMemoryBuffer>>();
 
     //Setup the worker-thread manager
@@ -95,7 +97,7 @@ int main() {
     thread_man->start();
 
     //Start the server on a background thread
-    TNonblockingServer server(proc_fac, proto_fac, port, thread_man);
+    TNonblockingServer server(proc_fac, proto_fac, trans, thread_man);
     server.setNumIOThreads(io_threads);
     std::thread server_thread([&server](){server.serve();});
 
