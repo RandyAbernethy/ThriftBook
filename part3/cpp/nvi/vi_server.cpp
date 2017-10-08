@@ -1,15 +1,15 @@
-#include <boost/make_shared.hpp>
+#include "gen-cpp/nvi_types.h"
+#include "gen-cpp/NVITest.h"
 #include <thrift/server/TSimpleServer.h>
 #include <thrift/protocol/TBinaryProtocol.h>
 #include <thrift/transport/TServerSocket.h>
 #include <thrift/transport/TBufferTransports.h>
-#include "gen-cpp/nvi_types.h"
-#include "gen-cpp/NVITest.h"
+#include <memory>
 
 using namespace ::apache::thrift::server;
 using namespace ::apache::thrift::protocol;
 using namespace ::apache::thrift::transport;
-using boost::make_shared;
+using std::make_shared;
 
 class NVITestHandler : public NVITestIf {
 public:
