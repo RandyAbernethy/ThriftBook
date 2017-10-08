@@ -3,15 +3,13 @@
 #include <thrift/transport/TServerSocket.h>
 #include <thrift/transport/TBufferTransports.h>
 #include <thrift/protocol/TBinaryProtocol.h>
-#include <boost/make_shared.hpp>
-#include <boost/shared_ptr.hpp>
+#include <memory>
 #include <iostream>
 
 using namespace ::apache::thrift::server;
 using namespace ::apache::thrift::protocol;
 using namespace ::apache::thrift::transport;
-using boost::shared_ptr;
-using boost::make_shared;
+using std::make_shared;
 
 class helloSvcHandler : public helloSvcIf {
 public:
