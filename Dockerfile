@@ -8,7 +8,7 @@
 #       $ sudo docker run -it thrift_book
 
 FROM ubuntu:16.04 
-MAINTAINER Randy Abernethy "ra@apache.org" 
+LABEL Maintainer Randy Abernethy "ra@apache.org" 
 
 #Install C++, Java and Python dependencies
 RUN apt-get update && \
@@ -18,7 +18,7 @@ RUN apt-get update && \
         flex \
         g++ \
         git \
-        libboost1.58-all-dev \
+        libboost-all-dev \
         libevent-dev \
         libssl-dev \
         libtool \
@@ -38,6 +38,7 @@ RUN apt-get update && \
         python-zope.interface \
         python-pip \
         python3-pip && \
+    pip install --upgrade backports.ssl_match_hostname && \
     apt-get clean && \
     rm -rf /var/cache/apt/* && \
     rm -rf /var/lib/apt/lists/*
