@@ -1,17 +1,15 @@
 //PNWF Node.js Fish Price Dump
 var Thrift = require('thrift');
-var TFramedTransport = require('thrift/lib/thrift/transport').TFramedTransport;
-var TBinaryProtocol = require('thrift/lib/thrift/protocol').TBinaryProtocol;
 var TradeHistory = require('./gen-nodejs/TradeHistory.js');
-var tradeUtils = require('./pnwf_trade_utils.js');
+var tradeUtils = require('./tradeUtils.js');
 
 var intId1 = null;
 var intId2 = null;
 
 //Connect to the server and setup a TradeHistory client
 var connection = Thrift.createConnection('localhost', 8585, {
-  transport: TFramedTransport,
-  protocol: TBinaryProtocol
+  transport: Thrift.TFramedTransport,
+  protocol: Thrift.TBinaryProtocol
 }).on('error', function(err) {
   console.log(err);
   clearInterval(intId1);

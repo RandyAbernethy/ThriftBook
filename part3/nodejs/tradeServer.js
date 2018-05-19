@@ -1,10 +1,8 @@
 //PNWF Node.js Price Server Mock
 var Thrift = require('thrift');
-var TFramedTransport = require('thrift/lib/thrift/transport').TFramedTransport;
-var TBinaryProtocol = require('thrift/lib/thrift/protocol').TBinaryProtocol;
-var TradeTypes = require('./gen-nodejs/pnwf_trades_types.js');
+var TradeTypes = require('./gen-nodejs/trade_types.js');
 var TradeHistory = require('./gen-nodejs/TradeHistory.js');
-var tradeUtils = require('./pnwf_trade_utils.js');
+var tradeUtils = require('./tradeUtils.js');
 
 //Mock trade support
 var getMockTrade = (function() {
@@ -55,8 +53,8 @@ var TradeHistoryHandler = {
 
 //Setup and run the server
 var ServerOpt = {
-  protocol: TBinaryProtocol,
-  transport: TFramedTransport
+  protocol: Thrift.TBinaryProtocol,
+  transport: Thrift.TFramedTransport
 }
 var port = 8585;
 Thrift.createServer(TradeHistory, TradeHistoryHandler, ServerOpt).listen(port);

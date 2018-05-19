@@ -1,5 +1,5 @@
 //PNWF Node.js Trade Utilities
-var TradeTypes = require('./gen-nodejs/pnwf_trades_types.js');
+var TradeTypes = require('./gen-nodejs/trade_types.js');
 
 var getTimeStamp = exports.getTimeStamp = function() {
   var date = new Date();
