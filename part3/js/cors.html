@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<!-- Simple Apache Thrift Client -->
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <title>Hello Thrift</title>
+  </head>
+  <body>
+    Name: 
+    <input type="text" id="name_in">
+    <input type="button" id="get_msg" value="Get Message" >
+    <div id="output"></div>
+
+    <script src="bower_components/thrift/lib/js/src/thrift.js"></script>
+    <script src="gen-js/helloSvc.js"></script>
+    <script>
+      (function() {
+        <!-- Setup Apache Thrift Client -->
+        var transport = new Thrift.TXHRTransport("http://localhost:9099/hello");
+        var protocol  = new Thrift.TJSONProtocol(transport);
+        var client    = new helloSvcClient(protocol);
+
+        <!-- Wire Apache Thrift RPC to DOM Click Event -->
+        var nameElement = document.getElementById("name_in");
+        var outputElement = document.getElementById("output");
+        document.getElementById("get_msg")
+          .addEventListener("click", function(){
+            outputElement.innerHTML = client.getMessage(nameElement.value);
+          });
+      })();
+    </script>
+  </body>
+</html>
