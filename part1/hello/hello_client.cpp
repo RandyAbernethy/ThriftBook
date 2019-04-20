@@ -4,13 +4,17 @@
 #include <thrift/transport/TSocket.h>
 #include <thrift/transport/TBufferTransports.h>
 #include <thrift/protocol/TBinaryProtocol.h>
-#include <boost/make_shared.hpp>
+// Use boost for older versions of thrift
+//#include <boost/make_shared.hpp>
 #include <iostream>
+#include <memory>
 #include <string>
 
 using namespace apache::thrift::transport;  
 using namespace apache::thrift::protocol;   
-using boost::make_shared;
+// Use boost for older versions of thrift
+//using boost::make_shared;
+using std::make_shared;
 
 int main() {
     auto trans_ep = make_shared<TSocket>("localhost", 9090);
