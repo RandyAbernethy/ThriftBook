@@ -4,15 +4,14 @@
 #include <thrift/transport/TSimpleFileTransport.h>
 #include <thrift/transport/TZlibTransport.h>
 #include <thrift/protocol/TBinaryProtocol.h>
-#include <boost/shared_ptr.hpp>
-#include <boost/make_shared.hpp>
+#include <memory>
 #include <iostream>
 
 using namespace apache::thrift::transport;
 using namespace apache::thrift::protocol;
 using namespace radio_observation;
-using boost::make_shared;
-using boost::shared_ptr;
+using std::make_shared;
+using std::shared_ptr;
 
 void DumpRadioObservation(const RadioObservation & ro) {
     auto it0 = _RadioObservationSystem_VALUES_TO_NAMES.find(ro.system);
