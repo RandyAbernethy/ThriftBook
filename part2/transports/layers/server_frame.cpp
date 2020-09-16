@@ -2,15 +2,14 @@
 
 #include <thrift/transport/TServerSocket.h>
 #include <thrift/transport/TBufferTransports.h>
-#include <boost/shared_ptr.hpp>
-#include <boost/make_shared.hpp>
+#include <memory>
 #include <string>
 #include <iostream>
 #include <memory>
 
 using namespace apache::thrift::transport;
-using boost::shared_ptr;
-using boost::make_shared;
+using std::shared_ptr;
+using std::make_shared;
 
 int main()
 {
