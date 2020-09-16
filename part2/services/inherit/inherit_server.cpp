@@ -4,14 +4,14 @@
 #include <thrift/server/TSimpleServer.h>
 #include <thrift/transport/TServerSocket.h>
 #include <thrift/TProcessor.h>
-#include <boost/make_shared.hpp>
+#include <memory>
 #include <string>
 #include <unordered_map>
 
 using namespace ::apache::thrift::protocol;
 using namespace ::apache::thrift::transport;
 using namespace ::apache::thrift::server;
-using boost::make_shared;
+using std::make_shared;
 
 struct Site { std::string name; int users; };
 std::unordered_map<int, Site> siteRank = { 
