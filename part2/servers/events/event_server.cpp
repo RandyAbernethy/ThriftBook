@@ -7,8 +7,7 @@
 #include <thrift/concurrency/PlatformThreadFactory.h>
 #include <thrift/server/TServer.h>
 #include <thrift/server/TThreadPoolServer.h>
-#include <boost/shared_ptr.hpp>
-#include <boost/make_shared.hpp>
+#include <memory>
 #include <iostream>
 #include <string>
 #include <thread>
@@ -19,8 +18,8 @@ using namespace ::apache::thrift::protocol;
 using namespace ::apache::thrift::transport; 		
 using namespace ::apache::thrift::server; 			
 using namespace ::apache::thrift::concurrency; 		
-using boost::shared_ptr; 					
-using boost::make_shared; 					
+using std::shared_ptr; 					
+using std::make_shared; 					
 
 const char * msgs[] = {"Apache Thrift!!",
                        "Childhood is a short season",

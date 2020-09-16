@@ -2,13 +2,13 @@
 #include <thrift/transport/TSocket.h>
 #include <thrift/transport/TBufferTransports.h>
 #include <thrift/protocol/TCompactProtocol.h>
-#include <boost/shared_ptr.hpp>
+#include <memory>
 #include <iostream>
 #include <string>
 
 using namespace apache::thrift::transport;
 using namespace apache::thrift::protocol;
-using boost::shared_ptr;
+using std::shared_ptr;
 
 class ThriftProxy {
 public:
