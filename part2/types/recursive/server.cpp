@@ -4,14 +4,14 @@
 #include <thrift/protocol/TBinaryProtocol.h>
 #include <thrift/server/TSimpleServer.h>
 #include <thrift/TProcessor.h>
-#include <boost/make_shared.hpp>
+#include <memory>
 #include <iostream>
 #include <string>
 
 using namespace ::apache::thrift::transport;
 using namespace ::apache::thrift::protocol;
 using namespace ::apache::thrift::server;
-using boost::make_shared;
+using std::make_shared;
 
 int node_count(const tree * t) {
   return (!t) ? 0 : (1 +
