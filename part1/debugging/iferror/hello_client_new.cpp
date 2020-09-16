@@ -2,13 +2,13 @@
 #include <thrift/transport/TSocket.h>
 #include <thrift/transport/TBufferTransports.h>
 #include <thrift/protocol/TJSONProtocol.h>
-#include <boost/make_shared.hpp>
+#include <memory>
 #include <iostream>
 #include <string>
 
 using namespace apache::thrift::transport;  
 using namespace apache::thrift::protocol;   
-using boost::make_shared;
+using std::make_shared;
 
 int main() {
     auto trans_ep = make_shared<TSocket>("localhost", 9090);

@@ -2,15 +2,14 @@
 #include <thrift/transport/TSocket.h>
 #include <thrift/transport/TBufferTransports.h>
 #include <thrift/protocol/TJSONProtocol.h>
-#include <boost/shared_ptr.hpp>
-#include <boost/make_shared.hpp>
+#include <memory>
 #include <iostream>
 #include <string>
 
 using namespace apache::thrift::transport;  
 using namespace apache::thrift::protocol;   
-using boost::shared_ptr;
-using boost::make_shared;
+using std::shared_ptr;
+using std::make_shared;
 
 int main() {
     shared_ptr<TTransport> trans = make_shared<TSocket>("localhost", 9090);
