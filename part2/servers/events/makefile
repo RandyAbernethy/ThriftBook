@@ -5,7 +5,7 @@ CLISRC = event_client.cpp gen-cpp/Message.cpp
 CLI2SRC = event_client2.cpp gen-cpp/Message.cpp
 
 CC = g++
-LIBS = -lthrift
+LIBS = -lthrift -lpthread
 CFLAGS = -Wall -std=c++11
 THRIFT = thrift -gen cpp
 
