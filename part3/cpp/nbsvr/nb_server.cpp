@@ -6,7 +6,7 @@
 #include <thrift/transport/TNonblockingServerSocket.h>
 #include <thrift/server/TNonblockingServer.h>
 #include <thrift/concurrency/ThreadManager.h>
-#include <thrift/concurrency/PlatformThreadFactory.h>
+#include <thrift/concurrency/ThreadFactory.h>
 #include <memory>
 #include <thread>
 #include <iostream>
@@ -93,7 +93,7 @@ int main() {
 
     //Setup the worker-thread manager
     auto thread_man = ThreadManager::newSimpleThreadManager(worker_threads);
-    thread_man->threadFactory(make_shared<PlatformThreadFactory>());
+    thread_man->threadFactory(make_shared<ThreadFactory>());
     thread_man->start();
 
     //Start the server on a background thread
