@@ -5,7 +5,6 @@
 #include <thrift/protocol/TCompactProtocol.h>
 #include <thrift/protocol/TBinaryProtocol.h>
 #include <thrift/protocol/TJSONProtocol.h>
-#include <boost/shared_ptr.hpp>
 #include <iostream>
 #include <string>
 #include <chrono>
@@ -58,7 +57,7 @@ int main(int argc, char *argv[]) {
     }
 
     //Set the Transport
-    boost::shared_ptr<TTransport> trans;			
+    std::shared_ptr<TTransport> trans;			
     if (argv[1][0] == 'm' || argv[1][0] == 'M') {
         const int mem_size = 1024*1024*64;
         trans.reset(new TMemoryBuffer(mem_size));

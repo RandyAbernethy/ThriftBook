@@ -3,13 +3,13 @@
 #include <thrift/transport/TSimpleFileTransport.h>
 #include <thrift/protocol/TProtocol.h>
 #include <thrift/protocol/TBinaryProtocol.h>
-#include <boost/make_shared.hpp>
+#include <memory>
 #include <iostream>
 #include <string>
 
 using namespace apache::thrift::transport;
 using namespace apache::thrift::protocol;
-using boost::make_shared;
+using std::make_shared;
 
 struct Trade {
    char symbol [16];
