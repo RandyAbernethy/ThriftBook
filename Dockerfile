@@ -58,6 +58,7 @@ RUN cd thrift &&\
 #Fix build.xml refs to 1.0.0 to work with 0.13.0
 RUN ln /thrift/lib/java/build/libs/libthrift-0.13.0.jar /usr/local/lib/libthrift-1.0.0.jar
 
+LABEL githash e25b487
 RUN git clone http://github.com/RandyAbernethy/ThriftBook
 ENV PYTHONPATH=/usr/lib/python2.7/site-packages
 WORKDIR /ThriftBook
