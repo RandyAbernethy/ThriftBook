@@ -3,14 +3,13 @@
 #include <thrift/transport/TServerSocket.h>
 #include <thrift/transport/TBufferTransports.h>
 #include <thrift/TProcessor.h>
-#include <boost/make_shared.hpp>
-#include <boost/shared_ptr.hpp>
+#include <memory>
 #include <iostream>
 
 using namespace ::apache::thrift::protocol;
 using namespace ::apache::thrift::transport;
 using namespace ::apache::thrift;
-using boost::make_shared;
+using std::make_shared;
 
 const char * msgs[] = {"Apache Thrift!!",
                        "Childhood is a short season",
