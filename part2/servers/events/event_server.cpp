@@ -4,7 +4,7 @@
 #include <thrift/transport/TBufferTransports.h>
 #include <thrift/protocol/TCompactProtocol.h>
 #include <thrift/concurrency/ThreadManager.h>
-#include <thrift/concurrency/PlatformThreadFactory.h>
+#include <thrift/concurrency/ThreadFactory.h>
 #include <thrift/server/TServer.h>
 #include <thrift/server/TThreadPoolServer.h>
 #include <memory>
@@ -47,7 +47,7 @@ int main(int argc, char **argv) {
 
   //Setup the thread manager and thread factory, then create the threads 
   auto t_man = ThreadManager::newSimpleThreadManager(2,1);		
-  auto t_fac = make_shared<PlatformThreadFactory>();			
+  auto t_fac = make_shared<ThreadFactory>();
   t_man->threadFactory(t_fac);  						
   t_man->start(); 								
 
