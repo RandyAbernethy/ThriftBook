@@ -44,8 +44,12 @@ RUN apt-get update && \
     rm -rf /var/lib/apt/lists/*
 
 #Install Apache Thrift
-RUN git clone http://github.com/apache/thrift &&\
-    cd thrift &&\
+RUN git clone --single-branch --branch 0.13.0 http://github.com/apache/thrift
+
+#Fix old use of http for maven
+RUN sed -i s/mvn.repo=http/mvn.repo=https/ /thrift/lib/java/gradle.properties
+
+RUN cd thrift &&\
     ./bootstrap.sh && \
     ./configure && \
     make install && \
