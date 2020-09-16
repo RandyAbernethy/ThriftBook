@@ -4,6 +4,7 @@
 #include <thrift/transport/TTransport.h>
 #include <thrift/protocol/TProtocol.h>
 #include <thrift/concurrency/ThreadManager.h>
+#include <thrift/concurrency/ThreadFactory.h>
 #include <thrift/server/TServer.h>
 #include <memory>
 #include <iostream>
