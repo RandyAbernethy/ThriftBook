@@ -4,8 +4,7 @@
 #include <thrift/transport/TServerSocket.h>
 #include <thrift/transport/TTransport.h>
 #include <thrift/TProcessor.h>
-#include <boost/make_shared.hpp>
-#include <boost/shared_ptr.hpp>
+#include <memory>
 #include <iostream>
 #include <string>
 
@@ -13,8 +12,8 @@ using namespace ::apache::thrift::protocol;
 using namespace ::apache::thrift::transport;
 using namespace ::apache::thrift::server;
 using namespace ::apache::thrift;
-using boost::make_shared;
-using boost::shared_ptr;
+using std::make_shared;
+using std::shared_ptr;
 
 const char * msgs[] = {"Apache Thrift!!",
                        "Childhood is a short season",

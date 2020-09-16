@@ -1,15 +1,14 @@
 #include "gen-cpp/Message.h"
 #include <thrift/transport/TSocket.h>
 #include <thrift/protocol/TJSONProtocol.h>
-#include <boost/make_shared.hpp>
-#include <boost/shared_ptr.hpp>
+#include <memory>
 #include <iostream>
 #include <string>
 
 using namespace apache::thrift::transport;
 using namespace apache::thrift::protocol;
-using boost::make_shared;
-using boost::shared_ptr;
+using std::make_shared;
+using std::shared_ptr;
 
 int main(int argv, char * argc[]) {
     shared_ptr<TTransport> trans;
