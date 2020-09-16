@@ -1,13 +1,12 @@
 // Apache Thrift Server Transport in C++ 
 
 #include <thrift/transport/TServerSocket.h>
-#include <boost/shared_ptr.hpp>
 #include <string>
 #include <iostream>
 #include <memory>
 
 using namespace apache::thrift::transport;
-using boost::shared_ptr;
+using std::shared_ptr;
 
 int main()
 {
