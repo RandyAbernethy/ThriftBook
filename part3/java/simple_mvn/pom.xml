@@ -27,7 +27,7 @@
             <plugin>
                 <groupId>org.apache.thrift</groupId>
                 <artifactId>thrift-maven-plugin</artifactId>
-                <version>0.12.0</version>
+                <version>0.10.0</version>
                 <configuration>
                     <thriftExecutable>/usr/local/bin/thrift</thriftExecutable>
                 </configuration>
