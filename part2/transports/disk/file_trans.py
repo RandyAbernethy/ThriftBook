@@ -4,16 +4,13 @@ import pickle
 from thrift.transport import TTransport
 
 class Trade:
-    def __init__(self):
-        symbol=""
-        price=0.0
-        size=0
+    def __init__(self, symbol, price, size):
+        self.symbol=""
+        self.price=0.0
+        self.size=0
 
 trans_out = TTransport.TFileObjectTransport(open("data","wb"))
-trade = Trade()
-trade.symbol = "F"
-trade.price = 13.10
-trade.size = 2500
+trade = Trade("F", 13.10, 2500)
 trans_out.write(pickle.dumps(trade));
 trans_out.close()
 
