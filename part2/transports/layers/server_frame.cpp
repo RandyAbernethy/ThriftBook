@@ -16,7 +16,7 @@ int main()
     const std::string msg("Hello Thrift!\n");
     const std::string stop_cmd("STOP");
     const int buf_size = 1024*8;
-    char buf[buf_size] = "";
+    char buf[buf_size];
     auto port = 9090;
 
     auto acceptor = std::make_shared<TServerSocket>(port);
