@@ -5,18 +5,15 @@ from thrift.protocol import TJSONProtocol
 from thrift import Thrift
 
 class Trade:
-    def __init__(self):
-        symbol=""
-        price=0.0
-        size=0
+    def __init__(self, symbol="", price=0.0, size=0):
+        self.symbol=symbol
+        self.price=price
+        self.size=size
 
 trans = TTransport.TFileObjectTransport(open("data.json","wb"))
 proto = TJSONProtocol.TJSONProtocol(trans)					
 
-trade = Trade()
-trade.symbol = "F"
-trade.price = 13.10
-trade.size = 2500
+trade = Trade("F", 13.10, 2500)
 
 proto.writeStructBegin("Trade")
 
