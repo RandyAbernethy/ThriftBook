@@ -5,20 +5,16 @@ from thrift.protocol import TBinaryProtocol
 from thrift import Thrift
 
 class Trade:
-    def __init__(self):
-        symbol=""
-        price=0.0
-        size=0
-        timestamp=0.0				
+    def __init__(self, symbol="", price=0.0, size=0, timestamp=0.0):
+        self.symbol=symbol
+        self.price=price
+        self.size=size
+        self.timestamp=timestamp
 
 trans = TTransport.TFileObjectTransport(open("data","wb"))
 proto = TBinaryProtocol.TBinaryProtocol(trans)
 
-trade = Trade()
-trade.symbol = "GE"
-trade.price = 27.25
-trade.size = 1700
-trade.timestamp = 9.5
+trade = Trade("GE", 27.25, 1700, 9.5)
 
 proto.writeStructBegin("Trade")
 
