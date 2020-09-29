@@ -4,8 +4,10 @@
 #     $ docker run -it randyabernethy/thrift-book:latest
 #
 # To build and run the image from within the ThriftBook dir:
-#     $ docker build -t thrift_book .
-#     $ docker run -it thrift_book
+#     $ docker build -t thrift-book .
+#     $ docker run -it thrift-book
+# 
+# N.B. some settings may require sudo with the docker cli
 
 FROM ubuntu:16.04 
 LABEL Maintainer Randy Abernethy "ra@apache.org" 
